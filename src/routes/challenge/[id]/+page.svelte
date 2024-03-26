@@ -5,4 +5,4 @@
     export let data;
 </script>
 
-<Challenge challenge={data}></Challenge>
+<Challenge challengeParticipation={data}></Challenge>

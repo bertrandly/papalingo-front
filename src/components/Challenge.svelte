@@ -1,14 +1,19 @@
 <script>
     import {fly} from "svelte/transition";
     import Question from "./Question.svelte";
+    import {getQuestion} from "$lib/quizzApi.js";
 
-    export let challenge;
+    export let challengeParticipation
 
+    let challenge = challengeParticipation.challenge
+    console.log(challenge)
     let questions = [];
     let currentQuestionIndex = null;
+    $: progression = currentQuestionIndex/10*100;
     let currentQuestion = null;
     let state = 'init';
     let questionValidated=false;
+
 
     function nextQuestion() {
         questionValidated=false;
@@ -23,31 +28,23 @@
             loadQuestion(challenge.questions[currentQuestionIndex].id);
             state = 'running'
         }
-
     }
 
     nextQuestion()
 
     async function loadQuestion(id) {
-        currentQuestion = null
-        let options = {
-            headers: {
-                accept: 'application/json'
-            }
-        };
-        const url = 'http://127.0.0.1:8003/api/questions/' + id;
-        const res = await fetch(url, options);
-        currentQuestion = await res.json();
-
+        currentQuestion = null;
+        currentQuestion = await getQuestion(id)
         questions = [...questions, currentQuestion];
-        console.log(questions);
+        //console.log(questions);
     }
 
     function onQuestionValidated(event) {
-        console.log(event)
         questionValidated=true;
     }
 </script>
+
+<progress class="progress" value={progression} max="100"></progress>
 
 {#if state === 'init'}
     Loading
@@ -57,14 +54,14 @@
             <div
                     in:fly={{ x: 200, duration: 500, delay: 500 }}
                     out:fly={{ x: -200, duration: 500 }}>
-                <Question question={question} on:validation={onQuestionValidated}></Question>
+                <Question question={question} participation={challengeParticipation} on:validation={onQuestionValidated}></Question>
 
             </div>
         {/if}
     {/each}
 
     {#if questionValidated}
-        <button on:click={nextQuestion}>Next</button>
+        <button on:click={nextQuestion} class="btn btn-block btn-success">Question suivante</button>
     {/if}
 
 {:else if state === 'ended'}

@@ -18,25 +18,18 @@
     }
 </script>
 
-<label for="{value}" class="{selected & questionValidated ? isCorrect?'success':'error' : ''}">
-    <input
-            disabled="{questionValidated}"
-            type="checkbox"
-            id="answer"
-            value={value}
-            name="question"
-            on:click={onclick}
-    />
-    { value } ({questionValidated} / {isCorrect})
-    <span class="checkbox"/>
-</label>
-{ group}
-<style>
 
-    label.success{
-        background-color: green;
-    }
-    label.error{
-        background-color: darkred;
-    }
-</style>
+<div class="form-control" >
+    <label class="label cursor-pointer mx-5">
+        <input
+                disabled="{questionValidated}"
+                type="checkbox"
+                id="answer"
+                value={value}
+                name="question"
+                class="checkbox checkbox-lg {selected & questionValidated ? isCorrect?'checkbox-success':'checkbox-error' : ''}"
+                on:click={onclick}
+        />
+        <span class="label-text ml-3 {selected & questionValidated ? isCorrect?'text-success':'text-error' : ''}">{ value }</span>
+    </label>
+</div>
