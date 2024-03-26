@@ -25,6 +25,22 @@ export async function getLastChallenge() {
     return null
 }
 
+export async function getAllChallenges() {
+    let options = getDefaultOptions();
+    const url = getApiRootUrl() + 'challenges';
+
+    try {
+        const res = await fetch(url, options);
+        const challenges = await res.json();
+        return {'challenges': challenges}
+    } catch (error) {
+        console.error('There was an error calling ' + url, error);
+    }
+    return null
+}
+
+
+
 
 export async function getChallenge(id) {
     let options = getDefaultOptions();
@@ -47,6 +63,22 @@ export async function postChallengeParticipation(data) {
     const res = await fetch(url, options)
     return await res.json();
 }
+
+export async function getAllChallengeParticipation(challengeId) {
+    let options = getDefaultOptions();
+    let url = getApiRootUrl() + 'challenge_participations';
+    if(challengeId){
+        url+='?challenge='+challengeId
+    }
+    try {
+        const res = await fetch(url, options);
+        return await res.json();
+    } catch (error) {
+        console.error('There was an error calling ' + url, error);
+    }
+    return null
+}
+
 export async function getChallengeParticipation(id) {
     let options = getDefaultOptions();
     const url = getApiRootUrl() + 'challenge_participations/'+id;

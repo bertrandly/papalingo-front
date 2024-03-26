@@ -6,10 +6,9 @@
     export let challengeParticipation
 
     let challenge = challengeParticipation.challenge
-    console.log(challenge)
     let questions = [];
     let currentQuestionIndex = null;
-    $: progression = currentQuestionIndex/10*100;
+    $: progression = challenge.questions.length>0?(currentQuestionIndex)/(challenge.questions.length)*100:0;
     let currentQuestion = null;
     let state = 'init';
     let questionValidated=false;
@@ -43,7 +42,7 @@
         questionValidated=true;
     }
 </script>
-
+{progression}
 <progress class="progress" value={progression} max="100"></progress>
 
 {#if state === 'init'}
