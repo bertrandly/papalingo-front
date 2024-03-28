@@ -1,5 +1,5 @@
 <script>
-    import {getChallengeParticipation, getNextChallenge} from "$lib/quizzApi.js";
+    import {getChallengeParticipation} from "$lib/quizzApi.js";
     import {onMount} from "svelte";
 
     export let challengeParticipation

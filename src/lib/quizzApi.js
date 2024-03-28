@@ -71,8 +71,7 @@ export async function getChallenge(id) {
     const url = getApiRootUrl() + 'challenges/'+id;
     try {
         const res = await fetch(url, options);
-        const challenge = await res.json();
-        return challenge;
+        return await res.json();
     } catch (error) {
         console.error('There was an error calling ' + url, error);
     }
@@ -121,8 +120,7 @@ export async function getChallengeParticipation(id) {
     const url = getApiRootUrl() + 'challenge_participations/'+id;
     try {
         const res = await fetch(url, options);
-        const participation = await res.json();
-        return participation;
+        return await res.json();
     } catch (error) {
         console.error('There was an error calling ' + url, error);
     }

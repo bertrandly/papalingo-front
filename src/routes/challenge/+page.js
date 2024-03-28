@@ -1,7 +1,5 @@
 /** @type {import('../../.svelte-kit/types/src/routes').PageLoad} */
 
-import { redirect } from '@sveltejs/kit';
-import { goto } from '$app/navigation';
 import {
     getAllChallengeParticipations,
 } from "$lib/quizzApi.js";
