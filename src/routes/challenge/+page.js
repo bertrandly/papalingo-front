@@ -3,13 +3,13 @@
 import { redirect } from '@sveltejs/kit';
 import { goto } from '$app/navigation';
 import {
-    getAllChallenges,
+    getAllChallengeParticipations,
 } from "$lib/quizzApi.js";
 /* load function must be execute only on the browser (use of goto)*/
 //export const ssr = false
 
 export async function load({params}) {
-    return await getAllChallenges();
+    return await getAllChallengeParticipations();
     /*const lastChallenge = await getLastChallenge();
     if (lastChallenge) {
         let participation = await postChallengeParticipation({'challenge':lastChallenge.id})

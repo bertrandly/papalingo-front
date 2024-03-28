@@ -13,7 +13,7 @@ function getDefaultOptions() {
     };
 }
 
-export async function getLastChallenge() {
+/*export async function getLastChallenge() {
     let options = getDefaultOptions();
     const url = getApiRootUrl() + 'challenges';
 
@@ -25,9 +25,9 @@ export async function getLastChallenge() {
         console.error('There was an error calling ' + url, error);
     }
     return null
-}
+}*/
 
-export async function getAllChallenges() {
+/*export async function getAllChallenges() {
     let options = getDefaultOptions();
     const url = getApiRootUrl() + 'challenges';
 
@@ -39,10 +39,32 @@ export async function getAllChallenges() {
         console.error('There was an error calling ' + url, error);
     }
     return null
+}*/
+export async function getAllChallengeParticipations() {
+    let options = getDefaultOptions();
+    const url = getApiRootUrl() + 'challenge_participations';
+
+    try {
+        const res = await fetch(url, options);
+        const challenges = await res.json();
+        return {'challenge_participations': challenges}
+    } catch (error) {
+        console.error('There was an error calling ' + url, error);
+    }
+    return null
 }
 
-
-
+export async function getNextChallenge() {
+    let options = getDefaultOptions();
+    const url = getApiRootUrl() + 'challenges/find';
+    try {
+        const res = await fetch(url, options);
+        return await res.json();
+    } catch (error) {
+        console.error('There was an error calling ' + url, error);
+    }
+    return null
+}
 
 export async function getChallenge(id) {
     let options = getDefaultOptions();
@@ -61,6 +83,19 @@ export async function postChallengeParticipation(data) {
     const url = getApiRootUrl() + 'challenge_participations';
     let options = getDefaultOptions();
     options.method = 'POST'
+    options.body = JSON.stringify(data)
+    const res = await fetch(url, options)
+    return await res.json();
+}
+
+export async function closeChallengeParticipation(id) {
+    return patchChallengeParticipation(id, {'endedAt': new Date()})
+}
+export async function patchChallengeParticipation(id, data) {
+    const url = getApiRootUrl() + 'challenge_participations/'+id;
+    let options = getDefaultOptions();
+    options.method = 'PATCH'
+    options.headers['Content-Type']='application/merge-patch+json'
     options.body = JSON.stringify(data)
     const res = await fetch(url, options)
     return await res.json();

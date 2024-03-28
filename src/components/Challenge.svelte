@@ -1,7 +1,8 @@
 <script>
     import {fly} from "svelte/transition";
     import Question from "./Question.svelte";
-    import {getQuestion} from "$lib/quizzApi.js";
+    import {closeChallengeParticipation, getQuestion} from "$lib/quizzApi.js";
+    import ChallengeFinished from "./ChallengeFinished.svelte";
 
     export let challengeParticipation
 
@@ -18,6 +19,8 @@
         questionValidated=false;
         if((currentQuestionIndex+1) === challenge.questions.length){
             state = 'ended'
+            currentQuestionIndex++;
+            closeChallengeParticipation(challengeParticipation.id);
         }else{
             if (currentQuestionIndex === null) {
                 currentQuestionIndex = 0;
@@ -39,11 +42,12 @@
     }
 
     function onQuestionValidated(event) {
+        console.log('onQuestionValidated')
         questionValidated=true;
     }
 </script>
-{progression}
-<progress class="progress" value={progression} max="100"></progress>
+
+<progress class="progress progress-success" value={progression} max="100"></progress>
 
 {#if state === 'init'}
     Loading
@@ -54,17 +58,18 @@
                     in:fly={{ x: 200, duration: 500, delay: 500 }}
                     out:fly={{ x: -200, duration: 500 }}>
                 <Question question={question} participation={challengeParticipation} on:validation={onQuestionValidated}></Question>
-
             </div>
         {/if}
     {/each}
 
     {#if questionValidated}
-        <button on:click={nextQuestion} class="btn btn-block btn-success">Question suivante</button>
+        <button on:click={nextQuestion} class="btn btn-block btn-success">
+            {#if (currentQuestionIndex+1)<challenge.questions.length}Next question{:else}Finish{/if}
+        </button>
     {/if}
 
 {:else if state === 'ended'}
-    Fin
+    <ChallengeFinished challengeParticipation={challengeParticipation}/>
 {/if}
 
 
