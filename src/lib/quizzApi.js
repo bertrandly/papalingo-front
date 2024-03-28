@@ -1,5 +1,7 @@
+
 function getApiRootUrl() {
-    return 'http://127.0.0.1:8003/api/';
+    return import.meta.env.VITE_API_URL;// 'http://papalingo-back.sitesetapplis.com/api/'
+   // return 'http://127.0.0.1:8003/api/'
 }
 
 function getDefaultOptions() {
