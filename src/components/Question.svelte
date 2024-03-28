@@ -59,7 +59,7 @@
         { question.title }
     </div>
 
-    <div class="flex justify-center my-3">
+    <div class="my-3 grid grid-cols-2 gap-4">
         {#each question.randomAnswers as answer, answerIndex}
             <Answer
                     isCorrect={question.correctAnswer == answer}

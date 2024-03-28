@@ -19,8 +19,8 @@
 </script>
 
 
-<div class="form-control" >
-    <label class="label cursor-pointer mx-5">
+<div class="form-control " >
+    <label class="label cursor-pointer mx-1 flex justify-start">
         <input
                 disabled="{questionValidated}"
                 type="checkbox"
