@@ -11,7 +11,14 @@
     let nextChallenge=null
 
     onMount(async () => {
-        nextChallenge = await getNextChallenge()
+        //midnight
+        let now = new Date()
+        now.setHours(0,0,0);
+        //load challenge if last challenge was before midnight
+        if(data.challenge_participations[0].startedAt<now.toISOString()){
+            nextChallenge = await getNextChallenge()
+        }
+
     });
     const startChallenge = async () => {
         let participation = await postChallengeParticipation({'challenge': nextChallenge.id})
@@ -19,17 +26,25 @@
     }
 </script>
 
-{#if nextChallenge}
-    <div class="flex justify-center mt-3">
-        <button on:click={startChallenge} class="btn btn-success w-1/4">Start</button>
+<div class="flex justify-center mt-3">
+    <div class="w-1/3 text-center">
+    {#if nextChallenge}
+        {#if nextChallenge.title}
+            <div class="">
+                <p><small>Today's challenge is:</small></p>
+                <h3>"{nextChallenge.title}"</h3>
+            </div>
+        {/if}
+        <button on:click={startChallenge} class="btn btn-success btn-block ">Start</button>
+    {:else}
+        Job's done!
+    {/if}
     </div>
+</div>
 
-{/if}
 <ul class="timeline timeline-vertical mt-2">
 
     {#each data.challenge_participations as challenge_participation}
-        {#if challenge_participation.endedAt}
         <ChallengeTimelineSummary challenge_participation={challenge_participation}/>
-        {/if}
     {/each}
 </ul>

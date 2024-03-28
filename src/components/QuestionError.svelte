@@ -36,7 +36,7 @@
 
         <div class="flex ...">
             <div class="w-5/6">
-                <p>La bonne réponse était:</p>
+                <p>The correct answer was:</p>
                 <p>
                     "{answer}"
                 </p>

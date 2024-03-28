@@ -42,7 +42,9 @@ function getDefaultOptions() {
 }*/
 export async function getAllChallengeParticipations() {
     let options = getDefaultOptions();
-    const url = getApiRootUrl() + 'challenge_participations';
+    let now = new Date()
+    let params = '?endedAt%5Bbefore%5D='+now.toISOString();
+    const url = getApiRootUrl() + 'challenge_participations'+params;
 
     try {
         const res = await fetch(url, options);
