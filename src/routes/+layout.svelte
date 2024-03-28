@@ -1,8 +1,20 @@
 <script>
     import "tailwindcss/tailwind.css";
+    import { pwaAssetsHead } from 'virtual:pwa-assets/head';
+    import { pwaInfo } from 'virtual:pwa-info';
+    $: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : ''
 </script>
 
-<html data-theme="emerald">
+<svelte:head>
+    {@html webManifestLink}
+    {#if pwaAssetsHead.themeColor}
+        <meta name="theme-color" content={pwaAssetsHead.themeColor.content} />
+    {/if}
+    {#each pwaAssetsHead.links as link}
+        <link {...link} />
+    {/each}
+</svelte:head>
+<html lang="en" data-theme="emerald">
 <slot />
 <!--<div class="btm-nav">
     <button>
