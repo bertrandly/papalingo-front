@@ -13,6 +13,7 @@
     let selectedAnswer=[];
     let validated=false;
     let userAnswer=null;
+    $: isAnswerCorrect=false
 
     const onSubmit = async () => {
         console.log('submit')
@@ -31,21 +32,22 @@
             })
         })
         userAnswer = await res.json();*/
+        isAnswerCorrect = isAnsweredCorrectly();
         userAnswer = postAnswer( {
             question: question.id,
             answer: selectedAnswer.toString(),
             challengeParticipation: participation.id
         }).then(x => {
             userAnswer=x;
+            isAnswerCorrect = userAnswer.correct
         });
 
         dispatch('validation')
     }
 
     const isAnsweredCorrectly = () => {
-        return selectedAnswer == question.correctAnswer;
+        return selectedAnswer.toString() != '' && question.correctAnswer.includes(selectedAnswer)
     }
-
 
 </script>
 
@@ -53,7 +55,7 @@
 <form
         on:submit|preventDefault={onSubmit}
 >
-    <div class="my-3">
+    <div class="my-3 text-center">
         { question.title }
     </div>
 
@@ -68,14 +70,14 @@
     </div>
 
     {#if !validated}
-        <button type="submit" class="btn btn-block btn-success">Valider</button>
+        <button type="submit" class="btn btn-block btn-success">Validate</button>
     {/if}
 </form>
 
 {#if validated}
 
     <div class="flex justify-center my-5">
-        {#if isAnsweredCorrectly()}
+        {#if isAnswerCorrect}
             <QuestionSuccess></QuestionSuccess>
         {:else}
             <QuestionError answer={question.correctAnswer} userAnswer={userAnswer}/>
