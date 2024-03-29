@@ -19,19 +19,6 @@
         console.log('submit')
         validated = true;
 
-        /*const url = 'http://127.0.0.1:8003/api/user_answers';
-        const res = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                question: question.id,
-                answer: selectedAnswer.toString()
-            })
-        })
-        userAnswer = await res.json();*/
         isAnswerCorrect = isAnsweredCorrectly();
         userAnswer = postAnswer( {
             question: question.id,
@@ -59,15 +46,23 @@
         { question.title }
     </div>
 
-    <div class="my-3 grid grid-cols-2 gap-4">
-        {#each question.randomAnswers as answer, answerIndex}
-            <Answer
-                    isCorrect={question.correctAnswer == answer}
-                    questionValidated={validated}
-                    bind:group={selectedAnswer} value={answer}
-            />
-        {/each}
-    </div>
+
+        {#if question.type == 'simpl'}
+            <div class="flex justify-center my-5">
+                <input type="text" placeholder="answer" class="w-5/6 input input-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs" bind:value={selectedAnswer}/>
+            </div>
+        {:else}
+            <div class="my-3 grid grid-cols-2 gap-4">
+                {#each question.randomAnswers as answer, answerIndex}
+                    <Answer
+                            isCorrect={question.correctAnswer == answer}
+                            questionValidated={validated}
+                            bind:group={selectedAnswer} value={answer}
+                    />
+                {/each}
+            </div>
+        {/if}
+
 
     {#if !validated}
         <button type="submit" class="btn btn-block btn-success">Validate</button>
