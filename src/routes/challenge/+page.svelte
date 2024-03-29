@@ -19,7 +19,7 @@
         if(data.challenge_participations[0].startedAt<now.toISOString()){
             nextChallenge = await getNextChallenge()
         }else{
-            nextChallenge = false
+            nextChallenge = true
         }
 
     });
@@ -31,8 +31,10 @@
 
 <div class="flex justify-center mt-3">
     <div class="w-1/3 text-center">
+    <!--chargement-->
     {#if nextChallenge}
-        {#if nextChallenge !== false}
+        <!--chargé: mais il y a t il un objet -->
+        {#if nextChallenge !== true}
             {#if nextChallenge.title}
                 <div class="">
                     <p><small>Today's challenge is:</small></p>
