@@ -33,7 +33,24 @@
     }
 
     const isAnsweredCorrectly = () => {
-        return selectedAnswer.toString() != '' && question.correctAnswer.includes(selectedAnswer)
+
+        //return selectedAnswer.toString() != '' && question.correctAnswer.includes(selectedAnswer)
+        if(selectedAnswer.toString() == ''){
+            return false;
+        }else{
+            if(question.type=='mcq'){
+                selectedAnswer.sort()
+                question.correctAnswers.sort()
+
+                return selectedAnswer.toString() != '' && (question.correctAnswers.includes(selectedAnswer.toString()) || question.correctAnswers.toString() == selectedAnswer.toString())
+            }else if(question.type=='simpl'){
+                return selectedAnswer.toString() == question.correctAnswer
+            }else{
+                console.warn('unknown question type')
+                return false;
+            }
+        }
+
     }
 
 </script>
@@ -55,7 +72,7 @@
             <div class="my-3 grid grid-cols-2 gap-4">
                 {#each question.randomAnswers as answer, answerIndex}
                     <Answer
-                            isCorrect={question.correctAnswer == answer}
+                            isCorrect={question.correctAnswers.includes(answer)}
                             questionValidated={validated}
                             bind:group={selectedAnswer} value={answer}
                     />

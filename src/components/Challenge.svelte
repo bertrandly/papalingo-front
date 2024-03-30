@@ -8,7 +8,7 @@
 
     let challenge = challengeParticipation.challenge
     let questions = [];
-    let currentQuestionIndex = null;
+    let currentQuestionIndex = -1;
     $: progression = challenge.questions.length>0?(currentQuestionIndex)/(challenge.questions.length)*100:0;
     let currentQuestion = null;
     let state = 'init';
@@ -17,16 +17,12 @@
 
     function nextQuestion() {
         questionValidated=false;
-        if((currentQuestionIndex+1) === challenge.questions.length){
+        if(currentQuestionIndex>=0 && (currentQuestionIndex+1) === challenge.questions.length){
             state = 'ended'
             currentQuestionIndex++;
             closeChallengeParticipation(challengeParticipation.id);
         }else{
-            if (currentQuestionIndex === null) {
-                currentQuestionIndex = 0;
-            } else {
-                currentQuestionIndex++;
-            }
+            currentQuestionIndex++;
             loadQuestion(challenge.shuffledQuestions[currentQuestionIndex].id);
             state = 'running'
         }
