@@ -20,6 +20,7 @@
             nextChallenge = await getNextChallenge()
         }else{
             nextChallenge = true
+            //nextChallenge = await getNextChallenge()
         }
 
     });

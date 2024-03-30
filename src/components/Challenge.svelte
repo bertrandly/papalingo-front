@@ -27,7 +27,7 @@
             } else {
                 currentQuestionIndex++;
             }
-            loadQuestion(challenge.questions[currentQuestionIndex].id);
+            loadQuestion(challenge.shuffledQuestions[currentQuestionIndex].id);
             state = 'running'
         }
     }
