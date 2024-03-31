@@ -3,6 +3,7 @@
     import Question from "./Question.svelte";
     import {closeChallengeParticipation, getQuestion} from "$lib/quizzApi.js";
     import ChallengeFinished from "./ChallengeFinished.svelte";
+    import Loader from "./Loader.svelte";
 
     export let challengeParticipation
 
@@ -10,7 +11,7 @@
     let questions = [];
     let currentQuestionIndex = -1;
     $: progression = challenge.questions.length>0?(currentQuestionIndex)/(challenge.questions.length)*100:0;
-    let currentQuestion = null;
+    $: currentQuestion = null;
     let state = 'init';
     let questionValidated=false;
 
@@ -48,15 +49,26 @@
 {#if state === 'init'}
     Loading
 {:else if state === 'running'}
-    {#each questions as question, questionIndex}
-        {#if questionIndex === currentQuestionIndex}
-            <div
-                    in:fly={{ x: 200, duration: 500, delay: 500 }}
-                    out:fly={{ x: -200, duration: 500 }}>
-                <Question question={question} participation={challengeParticipation} on:validation={onQuestionValidated}></Question>
+    {#if currentQuestion}
+        {#each questions as question, questionIndex}
+            {#if questionIndex === currentQuestionIndex}
+                <div
+                        in:fly={{ x: 200, duration: 500, delay: 500 }}
+                        out:fly={{ x: -200, duration: 500 }}>
+
+                        <Question question={question} participation={challengeParticipation} on:validation={onQuestionValidated}></Question>
+
+
+                </div>
+            {/if}
+        {/each}
+    {:else}
+        <div class="flex justify-center mt-3">
+            <div class="w-1/3 text-center">
+                <Loader/>
             </div>
-        {/if}
-    {/each}
+        </div>
+    {/if}
 
     {#if questionValidated}
         <button on:click={nextQuestion} class="btn btn-block btn-success">
