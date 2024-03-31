@@ -9,6 +9,7 @@
 
     export let question;
     export let participation;
+    export let iteration;
 
     let selectedAnswer=[];
     let validated=false;
@@ -23,10 +24,13 @@
         userAnswer = postAnswer( {
             question: question.id,
             answer: selectedAnswer.toString(),
-            challengeParticipation: participation.id
+            challengeParticipation: participation.id,
+            iteration: iteration
         }).then(x => {
+            console.log('postAnswer ended')
             userAnswer=x;
             isAnswerCorrect = userAnswer.correct
+            dispatch('userAnswer', userAnswer)
         });
 
         dispatch('validation')
