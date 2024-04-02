@@ -9,46 +9,53 @@
     /** @type {import('../../../../.svelte-kit/types/src/routes').PageData} */
     export let data;
 
-    let nextChallenge=null
+    let nextChallenge = null
+    let participation = null
 
     onMount(async () => {
         //midnight
         let now = new Date()
-        now.setHours(0,0,0);
+        now.setHours(0, 0, 0);
         //load challenge if last challenge was before midnight
-        if(data.challenge_participations[0].startedAt<now.toISOString()){
+        if (data.challenge_participations[0].startedAt < now.toISOString()) {
             nextChallenge = await getNextChallenge()
-        }else{
+        } else {
             nextChallenge = true
             //nextChallenge = await getNextChallenge()
         }
 
     });
     const startChallenge = async () => {
-        let participation = await postChallengeParticipation({'challenge': nextChallenge.id})
+        participation = await postChallengeParticipation({'challenge': nextChallenge.id})
         goto('/challenge/' + participation.id);
     }
 </script>
 
 <div class="flex justify-center mt-3">
     <div class="w-1/3 text-center">
-    <!--chargement-->
-    {#if nextChallenge}
-        <!--chargé: mais il y a t il un objet -->
-        {#if nextChallenge !== true}
-            {#if nextChallenge.title}
-                <div class="">
-                    <p><small>Today's challenge is:</small></p>
-                    <h3>"{nextChallenge.title}"</h3>
-                </div>
+        <!--chargement-->
+        {#if nextChallenge}
+            <!--chargé: mais il y a t il un objet -->
+            {#if nextChallenge !== true}
+                {#if nextChallenge.title}
+                    <div class="">
+                        <p><small>Today's challenge is:</small></p>
+                        <h3>"{nextChallenge.title}"</h3>
+                    </div>
+                {/if}
+                <button on:click={startChallenge} class="btn btn-success btn-block ">
+                    {#if participation == null}
+                        Start
+                    {:else}
+                        <Loader/>
+                    {/if}
+                </button>
+            {:else}
+                Job's done!
             {/if}
-            <button on:click={startChallenge} class="btn btn-success btn-block ">Start</button>
         {:else}
-            Job's done!
+            <Loader/>
         {/if}
-    {:else}
-        <Loader/>
-    {/if}
     </div>
 </div>
 

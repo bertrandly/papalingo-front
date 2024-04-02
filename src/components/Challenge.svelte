@@ -46,6 +46,7 @@
     nextQuestion()
 
     function saveAndClose() {
+        console.log('saveAndClose')
         state = 'ended'
         currentQuestionIndex++;
         closeChallengeParticipation(challengeParticipation.id);
@@ -75,7 +76,7 @@
 <progress class="progress progress-success" value={progression} max="100"></progress>
 
 {#if state === 'init'}
-    <Loading/>
+    <Loader/>
 {:else if state === 'mistake_intro'}
     <div class="flex justify-center my-5">
         <div class="w-1/3 text-center">
