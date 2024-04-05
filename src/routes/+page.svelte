@@ -1,11 +1,34 @@
 <script>
 
+    import auth from "../authService.js";
     import Loader from "../components/Loader.svelte";
+    import {onMount} from "svelte";
+    import {user, isAuthenticated} from "../store.js";
 
-    let loading=false;
-    const changePage = async () => {
-        loading = true;
+    let auth0Client;
+
+    const disableButton = async (event) => {
+        const node = event.currentTarget;
+        node.disabled = true;
     }
+
+    function login() {
+        auth.loginWithPopup(auth0Client);
+    }
+
+    function logout() {
+        auth.logout(auth0Client);
+    }
+
+    let userConnectedPromise
+
+    let connected = false
+    isAuthenticated.subscribe(function (value) {
+        connected = value;
+    })
+    onMount(async () => {
+        auth0Client = await auth.createClient();
+    });
 </script>
 
 <div class="hero min-h-screen">
@@ -13,11 +36,21 @@
     <div class="hero-content text-center text-primary-content">
         <div class="max-w-md">
             <h1 class="mb-5 text-5xl font-bold">
-                <img src="logo_papalingo.png" alt="logo"/>
+                <!--<img src="logo_papalingo.png" alt="logo"/>-->
             </h1>
             <p class="mb-5">The only, custom-made, especially for Jeanne, English learning App</p>
-            {#if !loading}
-                <a href="/challenge" class="btn btn-primary" on:click={changePage}>Get Started</a>
+          
+            {#if connected === true}
+                <div class="mb-6">
+                    <a href="/challenge" class="btn btn-primary "  on:click={disableButton}>
+                        Let's go
+                    </a>
+                </div>
+                <div>
+                    <a class="btn btn-neutral btn-ghost btn-sm" href="/#" on:click={logout}>Log Out</a>
+                </div>
+            {:else if connected === false}
+                <a class="btn btn-primary" href="/#" on:click={login}>Please log In</a>
             {:else}
                 <Loader/>
             {/if}
