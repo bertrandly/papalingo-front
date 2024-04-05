@@ -52,7 +52,7 @@
             {:else if connected === false}
                 <a class="btn btn-primary" href="/#" on:click={login}>Please log In</a>
             {:else}
-                <Loader/>
+                <Loader text="Do I know you ?"/>
             {/if}
         </div>
     </div>

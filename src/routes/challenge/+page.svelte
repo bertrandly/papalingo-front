@@ -19,7 +19,9 @@
             //midnight
             let now = new Date()
             now.setHours(0, 0, 0);
-            if (value[0].startedAt < now.toISOString()) {
+            console.log(value[0])
+            console.log('get next challenge')
+            if (value.length===0 || value[0].startedAt < now.toISOString()) {
                 nextChallenge = await getNextChallenge()
             } else {
                 //nextChallenge = true
@@ -46,7 +48,7 @@
         {:then resolvedValue }
             <!--chargé: mais il y a t il un objet -->
             {#await nextChallenge}
-                <Loader/>
+                <Loader text="What will be your next challenge ?"/>
             {:then loadedNexChallenge }
                 {#if loadedNexChallenge === null}
                     Job's done!
@@ -61,7 +63,7 @@
                         {#if participation === null}
                             Start
                         {:else}
-                            <Loader/>
+                            <Loader text="Warming up"/>
                         {/if}
 
                     </button>
@@ -73,15 +75,20 @@
 
 
 
-
-    {#await data}
-        <Loader/>
-    {:then resolvedValue }
-        <ul class="timeline timeline-vertical mt-2">
-            {#each resolvedValue as challenge_participation}
-                <ChallengeTimelineSummary challenge_participation={challenge_participation}/>
-            {/each}
-        </ul>
-    {/await}
+            <div class="mt-2">
+                {#await data}
+                    <Loader text="What have you done so far ?"/>
+                {:then resolvedValue }
+                    {#if resolvedValue.length>0}
+                    <ul class="timeline timeline-vertical mt-2">
+                        {#each resolvedValue as challenge_participation}
+                            <ChallengeTimelineSummary challenge_participation={challenge_participation}/>
+                        {/each}
+                    </ul>
+                    {:else}
+                        Ready for your first day ?
+                    {/if}
+                {/await}
+            </div>
     </div>
 </div>

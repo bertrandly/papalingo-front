@@ -36,12 +36,11 @@ async function getDefaultOptions() {
     let token = await getToken();
 
     return new Promise((successCallback, failureCallback) => {
-        console.log("C'est fait");
         let headers = {
             headers: {
                 accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + currentToken
+                'Authorization': 'Bearer ' + token
             }
         }
         successCallback(headers);
