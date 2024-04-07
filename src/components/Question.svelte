@@ -1,35 +1,37 @@
 <script>
 
     import Answer from "./Answer.svelte";
-    import { createEventDispatcher } from 'svelte'
+    import {createEventDispatcher} from 'svelte'
     import QuestionError from "./QuestionError.svelte";
     import QuestionSuccess from "./QuestionSuccess.svelte";
     import {postAnswer} from "$lib/quizzApi.js";
     import AnswerTraduction from "./AnswerTraduction.svelte";
+    import QuestionExplaination from "./QuestionExplaination.svelte";
+
     const dispatch = createEventDispatcher()
 
     export let question;
     export let participation;
     export let iteration;
 
-    let selectedAnswer=[];
-    let validated=false;
-    let userAnswer=null;
-    $: isAnswerCorrect=false
+    let selectedAnswer = [];
+    let validated = false;
+    let userAnswer = null;
+    $: isAnswerCorrect = false
 
     const onSubmit = async () => {
         console.log('submit')
         validated = true;
 
         isAnswerCorrect = isAnsweredCorrectly();
-        userAnswer = postAnswer( {
+        userAnswer = postAnswer({
             question: question.id,
             answer: selectedAnswer.toString(),
             challengeParticipation: participation.id,
             iteration: iteration
         }).then(x => {
             console.log('postAnswer ended')
-            userAnswer=x;
+            userAnswer = x;
             isAnswerCorrect = userAnswer.correct
             dispatch('userAnswer', userAnswer)
         });
@@ -39,19 +41,19 @@
 
     const isAnsweredCorrectly = () => {
         //return selectedAnswer.toString() != '' && question.correctAnswer.includes(selectedAnswer)
-        if(selectedAnswer.toString() == ''){
+        if (selectedAnswer.toString() == '') {
             return false;
-        }else{
-            if(question.type=='mcq'){
+        } else {
+            if (question.type == 'mcq') {
                 selectedAnswer.sort()
                 question.correctAnswers.sort()
 
                 return selectedAnswer.toString() != '' && (question.correctAnswers.includes(selectedAnswer.toString()) || question.correctAnswers.toString() == selectedAnswer.toString())
-            }else if(question.type=='simpl'){
+            } else if (question.type == 'simpl') {
                 return selectedAnswer.toString() == question.correctAnswer
-            }else if(question.type=='trad'){
+            } else if (question.type == 'trad') {
                 return selectedAnswer == question.correctAnswer
-            }else{
+            } else {
                 console.warn('unknown question type')
                 return false;
             }
@@ -67,13 +69,13 @@
 >
     <div class="my-3 text-center">
         <p class="mb-2">
-        {#if question.type == 'simpl'}
-            Type the missing word in the sentance below:
-        {:else if question.type == 'trad'}
-            Translate the sentance below:
-        {:else}
-            Find the missing word(s) in the sentance below:
-        {/if}
+            {#if question.type == 'simpl'}
+                Type the missing word in the sentance below:
+            {:else if question.type == 'trad'}
+                Translate the sentance below:
+            {:else}
+                Find the missing word(s) in the sentance below:
+            {/if}
         </p>
 
         <blockquote class="p-4 my-4 border-s-4 border-gray-300 bg-gray-50 dark:border-gray-500 dark:bg-gray-800">
@@ -84,31 +86,31 @@
     </div>
 
 
-        {#if question.type == 'simpl'}
-            <div class="flex justify-center my-5">
-                <input
-                        type="text"
-                       placeholder="answer"
-                       class="w-5/6 input input-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs"
-                       bind:value={selectedAnswer}/>
-            </div>
-        {:else if question.type == 'trad'}
-            <AnswerTraduction
-                    sentance={question.correctAnswer}
-                    otherWords={question.randomAnswers}
-                    bind:sentanceCreated={selectedAnswer}
-            />
-        {:else}
-            <div class="my-3 grid grid-cols-2 gap-4">
-                {#each question.randomAnswers as answer, answerIndex}
-                    <Answer
-                            isCorrect={question.correctAnswers.includes(answer)}
-                            questionValidated={validated}
-                            bind:group={selectedAnswer} value={answer}
-                    />
-                {/each}
-            </div>
-        {/if}
+    {#if question.type == 'simpl'}
+        <div class="flex justify-center my-5">
+            <input
+                    type="text"
+                    placeholder="answer"
+                    class="w-5/6 input input-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs"
+                    bind:value={selectedAnswer}/>
+        </div>
+    {:else if question.type == 'trad'}
+        <AnswerTraduction
+                sentance={question.correctAnswer}
+                otherWords={question.randomAnswers}
+                bind:sentanceCreated={selectedAnswer}
+        />
+    {:else}
+        <div class="my-3 grid grid-cols-2 gap-4">
+            {#each question.randomAnswers as answer, answerIndex}
+                <Answer
+                        isCorrect={question.correctAnswers.includes(answer)}
+                        questionValidated={validated}
+                        bind:group={selectedAnswer} value={answer}
+                />
+            {/each}
+        </div>
+    {/if}
 
 
     {#if !validated}
@@ -117,13 +119,20 @@
 </form>
 
 {#if validated}
-
     <div class="flex justify-center my-5">
+
         {#if isAnswerCorrect}
             <QuestionSuccess></QuestionSuccess>
         {:else}
+            <div>
             <QuestionError answer={question.correctAnswer} userAnswer={userAnswer}/>
+
+            {#if question.explaination}
+                <QuestionExplaination question={question}/>
+            {/if}
+            </div>
         {/if}
+
     </div>
 {/if}
 
