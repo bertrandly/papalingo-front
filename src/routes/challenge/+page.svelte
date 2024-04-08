@@ -10,16 +10,22 @@
     let data = getAllChallengeParticipations();
 
 
-    let nextChallenge = data  //promise
+    let nextChallenge = null  //promise
     $: participation = null
 
     onMount(async () => {
+
+        nextChallenge = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("toto");
+            }, 30000);
+        });
 
         data.then(async function (value) {
             //midnight
             let now = new Date()
             now.setHours(0, 0, 0);
-            console.log(value[0])
+            console.log(value.length)
             console.log('get next challenge')
             if (value.length === 0 || value[0].startedAt < now.toISOString()) {
                 nextChallenge = await getNextChallenge()
@@ -46,6 +52,7 @@
         <div class="w-1/2 text-center ">
             <!--chargement-->
             {#await data}
+                <!--nothing-->
             {:then resolvedValue }
                 <!--chargé: mais il y a t il un objet -->
                 {#await nextChallenge}
@@ -57,12 +64,13 @@
 
                         <div class="">
                             <p><small>Today's challenge is:</small></p>
-                            {#if loadedNexChallenge.title}
+                            {#if loadedNexChallenge.isRandom}
+                                <h3>A surprise! It has been generated randomly</h3>
+                            {:else if loadedNexChallenge.title}
                                 <h3>"{loadedNexChallenge.title}"</h3>
                             {:else}
-                                <h3>A surprise! It has been generated randomly</h3>
+                                <h3>Challenge #{loadedNexChallenge.id}</h3>
                             {/if}
-
                         </div>
 
                         <button on:click={startChallenge} class="btn btn-success btn-block ">
