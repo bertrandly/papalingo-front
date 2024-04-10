@@ -10,9 +10,11 @@
 
     const dispatch = createEventDispatcher()
 
-    export let question;
-    export let participation;
-    export let iteration;
+    export let question
+    export let participation
+    export let iteration
+
+    export let relatedToMedia = false
 
     let selectedAnswer = [];
     let validated = false;
@@ -69,12 +71,18 @@
 >
     <div class="my-3 text-center">
         <p class="mb-2">
-            {#if question.type == 'simpl'}
-                Type the missing word in the sentance below:
-            {:else if question.type == 'trad'}
-                Translate the sentance below:
+            {#if relatedToMedia}
+                Listen carefully and answer the questions
             {:else}
-                Find the missing word(s) in the sentance below:
+                {#if question.type == 'simpl'}
+                    Type the missing word in the sentance below:
+                {:else if question.type == 'trad'}
+                    Translate the sentance below:
+                {:else if question.type == 'mcq'}
+                    Listen and answer the questions:
+                {:else}
+                    Find the missing word(s) in the sentance below:
+                {/if}
             {/if}
         </p>
 
@@ -125,11 +133,11 @@
             <QuestionSuccess></QuestionSuccess>
         {:else}
             <div>
-            <QuestionError answer={question.correctAnswer} userAnswer={userAnswer}/>
+                <QuestionError answer={question.correctAnswer} userAnswer={userAnswer}/>
 
-            {#if question.explaination}
-                <QuestionExplaination question={question}/>
-            {/if}
+                {#if question.explaination}
+                    <QuestionExplaination question={question}/>
+                {/if}
             </div>
         {/if}
 

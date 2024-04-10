@@ -2,8 +2,11 @@ import {isAuthenticated, token, user} from "../store.js";
 import auth from "../authService.js";
 
 function getApiRootUrl() {
-    return import.meta.env.VITE_API_URL;// 'http://papalingo-back.sitesetapplis.com/api/'
+    return import.meta.env.VITE_API_URL+'/api/';// 'http://papalingo-back.sitesetapplis.com/api/'
     // return 'http://127.0.0.1:8003/api/'
+}
+function getApiHost() {
+    return import.meta.env.VITE_API_URL;
 }
 
 let currentToken;
@@ -209,3 +212,11 @@ export async function patchAnswer(id, data) {
     const res = await fetch(url, options)
     return await res.json();
 }
+
+export async function getMedia(mediaId) {
+    let options = await getDefaultOptions();
+    const url = getApiHost() + mediaId;
+    const res = await fetch(url, options);
+    return await res.json();
+}
+

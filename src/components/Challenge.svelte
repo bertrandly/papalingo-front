@@ -4,6 +4,7 @@
     import {closeChallengeParticipation, getQuestion} from "$lib/quizzApi.js";
     import ChallengeFinished from "./ChallengeFinished.svelte";
     import Loader from "./Loader.svelte";
+    import Media from "./media/Media.svelte";
 
     export let challengeParticipation
 
@@ -36,7 +37,7 @@
             currentQuestionIndex++;
         } else {
             currentQuestionIndex++;
-            console.log('currentQuestionIndex: '+currentQuestionIndex)
+            console.log('currentQuestionIndex: ' + currentQuestionIndex)
             loadQuestion(challenge.shuffledQuestions[currentQuestionIndex].id);
             state = 'running'
         }
@@ -76,6 +77,10 @@
 
 <progress class="progress progress-success" value={progression} max="100"></progress>
 
+{#if challenge.media}
+    <Media mediaId={challenge.media}/>
+{/if}
+
 {#if state === 'mistake_intro'}
     <div class="flex justify-center my-5">
         <div class="w-1/3 text-center">
@@ -97,9 +102,12 @@
                 <div
                         in:fly={{ x: 200, duration: 500, delay: 500 }}
                         out:fly={{ x: -200, duration: 500 }}>
-                    <Question question={question} participation={challengeParticipation}
+                    <Question question={question}
+                              relatedToMedia={challenge.media?true:false}
+                              participation={challengeParticipation}
                               iteration={state === 'mistake'?2:1}
-                              on:validation={onQuestionValidated} on:userAnswer={onUserAnswer}></Question>
+                              on:validation={onQuestionValidated}
+                              on:userAnswer={onUserAnswer}></Question>
                 </div>
             {/if}
         {/each}
