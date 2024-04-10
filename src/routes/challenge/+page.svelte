@@ -5,6 +5,7 @@
     import {getAllChallengeParticipations, getNextChallenge, postChallengeParticipation} from "$lib/quizzApi.js";
     import {goto} from "$app/navigation";
     import Loader from "../../components/Loader.svelte";
+    import Icon from "@iconify/svelte";
 
 
     let data = getAllChallengeParticipations();
@@ -61,7 +62,7 @@
                         Job's done!
                     {:else}
 
-                        <div class="">
+                        <div class="mb-2">
                             <p><small>Today's challenge is:</small></p>
                             {#if loadedNexChallenge.isRandom}
                                 <h3>A surprise! It has been generated randomly</h3>
@@ -71,6 +72,11 @@
                                 <h3>Challenge #{loadedNexChallenge.id}</h3>
                             {/if}
                         </div>
+                        {#if loadedNexChallenge.media}
+                            <div class="flex justify-center my-4 animate-bounce">
+                                <Icon icon="ri:headphone-fill" style="font-size: 44px;"/>
+                            </div>
+                        {/if}
 
                         <button on:click={startChallenge} class="btn btn-success btn-block ">
                             {#if participation === null}
