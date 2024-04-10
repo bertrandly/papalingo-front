@@ -36,10 +36,10 @@
     <div class="hero-content text-center text-primary-content">
         <div class="max-w-md">
             <h1 class="mb-5 text-5xl font-bold">
-                <!--<img src="logo_papalingo.png" alt="logo"/>-->
+                <img src="logo_papalingo.png" alt="logo"/>
             </h1>
             <p class="mb-5">The only, custom-made, especially for Jeanne, English learning App</p>
-          
+            <p class="mb-5">With real piece of BBC inside!</p>
             {#if connected === true}
                 <div class="mb-6">
                     <a href="/challenge" class="btn btn-primary "  on:click={disableButton}>
