@@ -31,7 +31,7 @@
             if (value.length === 0 || value[0].startedAt < now.toISOString()) {
                 nextChallenge = await getNextChallenge()
             } else {
-                nextChallenge = new Promise((resolve, reject)=>  {resolve(null)});
+                nextChallenge = await getNextChallenge()
             }
         })
 
