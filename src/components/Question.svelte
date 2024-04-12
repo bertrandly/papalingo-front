@@ -7,6 +7,7 @@
     import {postAnswer} from "$lib/quizzApi.js";
     import AnswerTraduction from "./AnswerTraduction.svelte";
     import QuestionExplaination from "./QuestionExplaination.svelte";
+    import QuestionHelp from "./QuestionHelp.svelte";
 
     const dispatch = createEventDispatcher()
 
@@ -128,7 +129,7 @@
 
 {#if validated}
     <div class="flex justify-center my-5">
-
+        <div>
         {#if isAnswerCorrect}
             <QuestionSuccess userAnswer={userAnswer}></QuestionSuccess>
         {:else}
@@ -138,6 +139,8 @@
         {#if question.explaination}
             <QuestionExplaination question={question}/>
         {/if}
+            <QuestionHelp userAnswer={userAnswer}/>
+        </div>
 
     </div>
 {/if}
