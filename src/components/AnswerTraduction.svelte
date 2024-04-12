@@ -6,18 +6,14 @@
     export let sentanceCreated;
     let words = (sentance + ' ' + otherWords).split(' ').sort((a, b) => 0.5 - Math.random());
     let selectedWords = [];
+    let selectedWordsIndex = [];
 
     function addWord(event) {
+        selectedWordsIndex = [...selectedWordsIndex, words.indexOf(event.target.innerHTML)];
+
         selectedWords = [...selectedWords, event.target.innerHTML];
         sentanceCreated = selectedWords.join(' ')
 
-        if(words.length>1){
-            let index = words.indexOf(event.target.innerHTML);
-            words.splice(index, 1);
-            words=words
-        }else{
-            words = []
-        }
     }
     function removeWord(event) {
         if(selectedWords.length>1){
@@ -27,7 +23,12 @@
         }else{
             selectedWords = []
         }
-        words = [...words, event.target.innerHTML];
+
+        //remove in selectedWordsIndex
+        let index = words.indexOf(event.target.innerHTML);
+        let indexInIndex = selectedWordsIndex.indexOf(index);
+        selectedWordsIndex.splice(indexInIndex, 1);
+        selectedWordsIndex=selectedWordsIndex
     }
 
 </script>
@@ -42,8 +43,8 @@
 <hr>
 <div class="flex justify-center my-5">
     <div class="w-5/6">
-        {#each words as word}
-            <button class="btn btn-outline m-1"  on:click|preventDefault={addWord}>{word}</button>
+        {#each words as word,index}
+            <button class="btn btn-outline m-1" disabled="{selectedWordsIndex.includes(index)?'disabled':''}"  on:click|preventDefault={addWord}>{word}</button>
         {/each}
     </div>
 </div>
