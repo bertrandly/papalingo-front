@@ -130,15 +130,13 @@
     <div class="flex justify-center my-5">
 
         {#if isAnswerCorrect}
-            <QuestionSuccess></QuestionSuccess>
+            <QuestionSuccess userAnswer={userAnswer}></QuestionSuccess>
         {:else}
-            <div>
-                <QuestionError answer={question.correctAnswer} userAnswer={userAnswer}/>
+            <QuestionError answer={question.correctAnswer} userAnswer={userAnswer}/>
+        {/if}
 
-                {#if question.explaination}
-                    <QuestionExplaination question={question}/>
-                {/if}
-            </div>
+        {#if question.explaination}
+            <QuestionExplaination question={question}/>
         {/if}
 
     </div>
