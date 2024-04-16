@@ -81,7 +81,7 @@
             {:else}
                 {#if question.type == 'simpl'}
                     Type the missing word in the sentance below:
-                {:else if question.type == 'trad'}
+                {:else if question.type == 'trad' || question.type == 'full'}
                     Translate the sentance below:
                 {:else if question.type == 'mcq'}
                     Listen and answer the questions:
