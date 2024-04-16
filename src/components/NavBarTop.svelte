@@ -1,25 +1,44 @@
 <script>
-    import {isAuthenticated, user} from "../store.js";
+    import {isAuthenticated, user, xpPoints} from "../store.js";
     import {onMount} from "svelte";
     import auth from "../authService.js";
-    import {getToken} from "$lib/quizzApi.js";
+    import {getConnectedUser, getToken} from "$lib/quizzApi.js";
+    import {sleep} from "$lib/utils.js";
 
-    let username = ''
-    user.subscribe(function (value) {
-        if (value && value.name) {
-            username = value ? value.name : '?';
+    let currentUser
+
+    let xp = 0;
+    let xpIndicatorCssClass = '';
+    xpPoints.subscribe(function (value) {
+        if (xp == 0) {
+            xp = value
+        } else {
+            updateXp(value)
         }
     })
 
-    let token = '';
+    async function updateXp(newValue) {
+        for (var i = xp; i <= newValue; i++) {
+            xpIndicatorCssClass = 'animate-ping'
+            xp = i
+            await sleep(100);
+            xpIndicatorCssClass = ''
+            await sleep(100);
+        }
+    }
 
     onMount(async () => {
 
         let auth0Client = await auth.createClient();
-        let userConnectedPromise = await auth0Client.isAuthenticated()
-        isAuthenticated.set(userConnectedPromise);
-        user.set(await auth0Client.getUser());
-        getToken().then((t) => token = t);
+        let userConnectedPromise = auth0Client.isAuthenticated()
+        isAuthenticated.set(await userConnectedPromise)
+        //user.set(await auth0Client.getUser());
+        userConnectedPromise.then(function (t) {
+            currentUser = getConnectedUser()
+            currentUser.then(function (user) {
+                xpPoints.set(user.totalXp)
+            })
+        });
 
     });
 
@@ -42,14 +61,26 @@
         </div>
     </div>
     <div class="navbar-center">
-        <a class="btn btn-ghost text-xl">{username}</a>
+        {#if currentUser}
+            {#await currentUser}
+            {:then user}
+                <span class="text-xl">{user.username}</span>
+            {/await}
+        {/if}
     </div>
     <div class="navbar-end">
-        {#if token}
-            <div class="indicator">
-                <span class="badge badge-xs badge-primary indicator-item"></span>
-            </div>
-        {/if}
+
+        {#await currentUser}
+        {:then user}
+            {#if user && user.admin }
+                <span class={xpIndicatorCssClass}>{xp} XP</span>
+            {/if}
+            <span>
+                <div class="badge badge-primary ml-3">Connected</div>
+            </span>
+        {/await}
+
+
         <!--
             <button class="btn btn-ghost btn-circle">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"

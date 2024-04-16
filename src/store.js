@@ -8,6 +8,8 @@ export const token =  writable({});
 export const popupOpen = writable(false)
 export const error = writable();
 
+export const xpPoints =  writable(0);
+
 /*
 export const tasks = writable([]);
 

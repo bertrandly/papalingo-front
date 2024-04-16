@@ -8,7 +8,6 @@
 
     function onclick()
     {
-        console.log('on click')
         if(selected){
             group = group.filter(v=>v!=value)
         }

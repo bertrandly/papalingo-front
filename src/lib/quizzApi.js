@@ -11,7 +11,7 @@ function getApiHost() {
 
 let currentToken;
 token.subscribe(function (value) {
-    console.log('token updated: ' + value)
+    console.log('token updated: '+value)
     currentToken = value
 })
 
@@ -150,7 +150,7 @@ export async function closeChallengeParticipation(id) {
 }
 
 export async function patchChallengeParticipation(id, data) {
-    const url = getApiRootUrl() + 'challenge_participations/' + id;
+    const url = getApiRootUrl() + 'challenge_participations/' + id+'/close';
     let options = await getDefaultOptions();
     options.method = 'PATCH'
     options.headers['Content-Type'] = 'application/merge-patch+json'
@@ -177,13 +177,8 @@ export async function getAllChallengeParticipation(challengeId) {
 export async function getChallengeParticipation(id) {
     let options = await getDefaultOptions();
     const url = getApiRootUrl() + 'challenge_participations/' + id;
-    try {
-        const res = await fetch(url, options);
-        return await res.json();
-    } catch (error) {
-        console.error('There was an error calling ' + url, error);
-    }
-    return null
+    const res = await fetch(url, options);
+    return await res.json();
 }
 
 export async function getQuestion(id) {
@@ -203,7 +198,6 @@ export async function postAnswer(data) {
 }
 
 export async function patchAnswer(id, data) {
-    console.log(id)
     const url = getApiRootUrl() + 'user_answers/' + id;
     let options = await getDefaultOptions();
     options.method = 'PATCH'
@@ -220,3 +214,9 @@ export async function getMedia(mediaId) {
     return await res.json();
 }
 
+export async function getConnectedUser() {
+    let options = await getDefaultOptions();
+    const url = getApiRootUrl() + 'users/me';
+    const res = await fetch(url, options);
+    return await res.json();
+}

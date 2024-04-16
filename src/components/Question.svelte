@@ -37,6 +37,8 @@
             userAnswer = x;
             isAnswerCorrect = userAnswer.correct
             dispatch('userAnswer', userAnswer)
+
+
         });
 
         dispatch('validation')
@@ -131,7 +133,7 @@
     <div class="flex justify-center my-5">
         <div>
         {#if isAnswerCorrect}
-            <QuestionSuccess userAnswer={userAnswer}></QuestionSuccess>
+            <QuestionSuccess></QuestionSuccess>
         {:else}
             <QuestionError answer={question.correctAnswer} userAnswer={userAnswer}/>
         {/if}

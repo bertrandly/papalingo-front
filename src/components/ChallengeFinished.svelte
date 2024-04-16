@@ -1,12 +1,17 @@
 <script>
     import {getChallengeParticipation} from "$lib/quizzApi.js";
     import {onMount} from "svelte";
+    import Loader from "./Loader.svelte";
+    import {xpPoints} from "../store.js";
 
-    export let challengeParticipation
+    export let challengeParticipation;
+    let challengeParticipationRefreshed = getChallengeParticipation(challengeParticipation.id)
 
-    onMount(async () => {
-        challengeParticipation = await getChallengeParticipation(challengeParticipation.id)
-    });
+    //update xp when cp received
+    challengeParticipationRefreshed.then(function (cp) {
+        xpPoints.set($xpPoints + cp.xp)
+    })
+
 
 </script>
 
@@ -17,10 +22,18 @@
             <div class="max-w-md">
                 <h1 class="text-5xl font-bold">Challenge Over !</h1>
                 <p class="py-6">Keep practicing, that's the only way to improve. </p>
-                <div class="mb-8">
-                    <div class="radial-progress text-primary" style="--value:{challengeParticipation.correctAnswerRate};" role="progressbar">{challengeParticipation.correctAnswerRate}%</div>
-                </div>
-                <a href="/challenge" class="btn btn-outline  btn-neutral">Close</a>
+                {#await challengeParticipationRefreshed}
+                    <Loader text="loading your results"/>
+                {:then cp }
+                    <div class="mb-8">
+                        <div class="radial-progress text-primary"
+                             style="--value:{challengeParticipation.correctAnswerRate};"
+                             role="progressbar">{cp.correctAnswerRate}%
+                        </div>
+                    </div>
+                    <a href="/challenge" class="btn btn-outline  btn-neutral">Close</a>
+                {/await}
+
             </div>
         </div>
     </div>

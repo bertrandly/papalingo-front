@@ -56,18 +56,16 @@
         currentQuestion = null;
         currentQuestion = await getQuestion(id)
         questions = [...questions, currentQuestion];
-        //console.log(questions);
     }
 
     function onQuestionValidated(event) {
-        console.log('onQuestionValidated')
+        //console.log('onQuestionValidated')
         questionValidated = true;
         readyForNextQuestion = false;
     }
 
     function onUserAnswer(event) {
-        console.log('onUserAnswer')
-        console.log(event.detail)
+        //console.log('onUserAnswer')
         if (!event.detail.correct && state === 'running') {
             wrongQuestions = [...wrongQuestions, currentQuestion];
         }
@@ -75,10 +73,12 @@
     }
 </script>
 
-<progress class="progress progress-success" value={progression} max="100"></progress>
+{#if state === 'running' || state === 'mistake'}
+    <progress class="progress progress-success" value={progression} max="100"></progress>
 
-{#if challenge.media}
-    <Media mediaId={challenge.media}/>
+    {#if challenge.media}
+        <Media mediaId={challenge.media}/>
+    {/if}
 {/if}
 
 {#if state === 'mistake_intro'}

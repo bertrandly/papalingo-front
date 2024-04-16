@@ -10,7 +10,7 @@
     import {getToken} from "$lib/quizzApi.js";
 
     onMount(async () => {
-        getToken();
+        //getToken();
     });
 </script>
 
