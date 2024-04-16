@@ -20,10 +20,10 @@
         auth.logout(auth0Client);
     }
 
-    let userConnectedPromise
 
     let connected = false
     isAuthenticated.subscribe(function (value) {
+        //console.log('isAuthenticated.subscribe: '+value)
         connected = value;
     })
     onMount(async () => {
