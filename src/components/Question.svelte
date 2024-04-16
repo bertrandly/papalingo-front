@@ -58,6 +58,8 @@
                 return selectedAnswer.toString() == question.correctAnswer
             } else if (question.type == 'trad') {
                 return selectedAnswer == question.correctAnswer
+            }else if (question.type == 'full') {
+                return selectedAnswer == question.correctAnswer
             } else {
                 console.warn('unknown question type')
                 return false;
@@ -105,6 +107,14 @@
                     class="w-5/6 input input-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs"
                     bind:value={selectedAnswer}/>
         </div>
+    {:else if question.type == 'full'}
+            <div class="flex justify-center my-5">
+                <textarea
+                        type="text"
+                        placeholder="answer"
+                        class="textarea textarea-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs"
+                        bind:value={selectedAnswer}/>
+            </div>
     {:else if question.type == 'trad'}
         <AnswerTraduction
                 sentance={question.correctAnswer}
