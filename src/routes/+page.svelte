@@ -20,36 +20,50 @@
         auth.logout(auth0Client);
     }
 
-
-    let connected = false
-    isAuthenticated.subscribe(function (value) {
+    //let connected = false
+    //let currentUser = null
+    /*isAuthenticated.subscribe(function (value) {
         //console.log('isAuthenticated.subscribe: '+value)
-        connected = value;
-    })
+        //connected = value;
+        user.subscribe((value) => {
+            console.log(value);
+            currentUser = value
+        });
+    })*/
+   /* user.subscribe((value) => {
+        currentUser = value
+    })*/
     onMount(async () => {
         auth0Client = await auth.createClient();
     });
 </script>
 
-<div class="hero min-h-screen">
+<div class="hero ">
     <div class="hero-overlay bg-opacity-0"></div>
     <div class="hero-content text-center text-primary-content">
         <div class="max-w-md">
             <h1 class="mb-5 text-5xl font-bold">
-                <img src="logo_papalingo.png" alt="logo"/>
+              <!--  <img src="logo_papalingo.png" alt="logo"/>-->
             </h1>
             <p class="mb-5">The only, custom-made, especially for Jeanne, English learning App</p>
             <p class="mb-5">With real piece of BBC inside!</p>
-            {#if connected === true}
-                <div class="mb-6">
-                    <a href="/challenge" class="btn btn-primary "  on:click={disableButton}>
-                        Let's go
-                    </a>
-                </div>
-                <div>
+
+            {#if $isAuthenticated === true}
+
+                {#await $user}
+                   <Loader text="What do I know about you?"/>
+                {:then}
+                    <div class="mb-6">
+                        <a href="/challenge" class="btn btn-primary " on:click={disableButton}>
+                            Let's go
+                        </a>
+                    </div>
+                {/await}
+
+                <div class="mt-5">
                     <a class="btn btn-neutral btn-ghost btn-sm" href="/#" on:click={logout}>Log Out</a>
                 </div>
-            {:else if connected === false}
+            {:else if $isAuthenticated === false}
                 <a class="btn btn-primary" href="/#" on:click={login}>Please log In</a>
             {:else}
                 <Loader text="Do I know you ?"/>
