@@ -1,6 +1,6 @@
 <script>
     import {fly} from "svelte/transition";
-    import Question from "./Question.svelte";
+    import Question from "./question/Question.svelte";
     import {closeChallengeParticipation, getQuestion} from "$lib/quizzApi.js";
     import ChallengeFinished from "./ChallengeFinished.svelte";
     import Loader from "./Loader.svelte";
