@@ -1,13 +1,14 @@
 <script>
 
-    import Answer from "./Answer.svelte";
+    import Answer from "../Answer.svelte";
     import {createEventDispatcher} from 'svelte'
-    import QuestionError from "./QuestionError.svelte";
-    import QuestionSuccess from "./QuestionSuccess.svelte";
+    import QuestionError from "../QuestionError.svelte";
+    import QuestionSuccess from "../QuestionSuccess.svelte";
     import {postAnswer} from "$lib/quizzApi.js";
-    import AnswerTraduction from "./AnswerTraduction.svelte";
-    import QuestionExplaination from "./QuestionExplaination.svelte";
-    import QuestionHelp from "./QuestionHelp.svelte";
+    import AnswerTraduction from "../AnswerTraduction.svelte";
+    import QuestionExplaination from "../QuestionExplaination.svelte";
+    import QuestionHelp from "../QuestionHelp.svelte";
+    import Media from "../media/Media.svelte";
 
     const dispatch = createEventDispatcher()
 
@@ -23,7 +24,7 @@
     $: isAnswerCorrect = false
 
     const onSubmit = async () => {
-        console.log('submit')
+        //console.log('submit')
         validated = true;
 
         isAnswerCorrect = isAnsweredCorrectly();
@@ -58,7 +59,7 @@
                 return selectedAnswer.toString() == question.correctAnswer
             } else if (question.type == 'trad') {
                 return selectedAnswer == question.correctAnswer
-            }else if (question.type == 'full') {
+            } else if (question.type == 'full') {
                 return selectedAnswer == question.correctAnswer
             } else {
                 console.warn('unknown question type')
@@ -89,6 +90,12 @@
                     Find the missing word(s) in the sentance below:
                 {/if}
             {/if}
+
+            {#if question.media}
+                <div class="flex justify-center my-3">
+                    <Media mediaId={question.media}/>
+                </div>
+            {/if}
         </p>
 
         <blockquote class="p-4 my-4 border-s-4 border-gray-300 bg-gray-50 dark:border-gray-500 dark:bg-gray-800">
@@ -108,13 +115,13 @@
                     bind:value={selectedAnswer}/>
         </div>
     {:else if question.type == 'full'}
-            <div class="flex justify-center my-5">
+        <div class="flex justify-center my-5">
                 <textarea
                         type="text"
                         placeholder="answer"
                         class="textarea textarea-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs"
                         bind:value={selectedAnswer}/>
-            </div>
+        </div>
     {:else if question.type == 'trad'}
         <AnswerTraduction
                 sentance={question.correctAnswer}
@@ -142,15 +149,15 @@
 {#if validated}
     <div class="flex justify-center my-5">
         <div>
-        {#if isAnswerCorrect}
-            <QuestionSuccess></QuestionSuccess>
-        {:else}
-            <QuestionError answer={question.correctAnswer} userAnswer={userAnswer}/>
-        {/if}
+            {#if isAnswerCorrect}
+                <QuestionSuccess></QuestionSuccess>
+            {:else}
+                <QuestionError answer={question.correctAnswer} userAnswer={userAnswer}/>
+            {/if}
 
-        {#if question.explaination}
-            <QuestionExplaination question={question}/>
-        {/if}
+            {#if question.explaination}
+                <QuestionExplaination question={question}/>
+            {/if}
             <QuestionHelp userAnswer={userAnswer}/>
         </div>
 
