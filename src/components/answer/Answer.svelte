@@ -17,18 +17,16 @@
     }
 </script>
 
+<label class="label cursor-pointer mx-1 flex justify-start grow">
+    <input
+            disabled="{questionValidated}"
+            type="checkbox"
+            id="answer"
+            value={value}
+            name="question"
+            class="checkbox checkbox-lg {selected & questionValidated ? isCorrect?'checkbox-success':'checkbox-error' : ''}"
+            on:click={onclick}
+    />
+    <span class="label-text ml-3 {selected & questionValidated ? isCorrect?'text-success':'text-error' : ''}">{ value }</span>
+</label>
 
-<div class="form-control " >
-    <label class="label cursor-pointer mx-1 flex justify-start">
-        <input
-                disabled="{questionValidated}"
-                type="checkbox"
-                id="answer"
-                value={value}
-                name="question"
-                class="checkbox checkbox-lg {selected & questionValidated ? isCorrect?'checkbox-success':'checkbox-error' : ''}"
-                on:click={onclick}
-        />
-        <span class="label-text ml-3 {selected & questionValidated ? isCorrect?'text-success':'text-error' : ''}">{ value }</span>
-    </label>
-</div>
