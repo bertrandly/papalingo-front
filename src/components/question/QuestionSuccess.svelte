@@ -1,5 +1,5 @@
 <script>
-    import PositiveMessage from "./PositiveMessage.svelte";
+    import PositiveMessage from "../PositiveMessage.svelte";
 </script>
 
 <div class="card bg-success text-primary-content">

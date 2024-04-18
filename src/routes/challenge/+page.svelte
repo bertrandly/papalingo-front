@@ -1,6 +1,6 @@
 <script>
 
-    import ChallengeTimelineSummary from "../../components/ChallengeTimelineSummary.svelte";
+    import ChallengeTimelineSummary from "../../components/challenge/ChallengeTimelineSummary.svelte";
     import {onMount} from "svelte";
     import {getAllChallengeParticipations, getNextChallenge, postChallengeParticipation} from "$lib/quizzApi.js";
     import {goto} from "$app/navigation";

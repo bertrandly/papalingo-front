@@ -1,10 +1,10 @@
 <script>
     import {fly} from "svelte/transition";
-    import Question from "./question/Question.svelte";
+    import Question from "../question/Question.svelte";
     import {closeChallengeParticipation, getQuestion} from "$lib/quizzApi.js";
     import ChallengeFinished from "./ChallengeFinished.svelte";
-    import Loader from "./Loader.svelte";
-    import Media from "./media/Media.svelte";
+    import Loader from "../Loader.svelte";
+    import Media from "../media/Media.svelte";
     import {focusOnInit} from "$lib/utils.js";
 
     export let challengeParticipation

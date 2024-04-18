@@ -1,5 +1,5 @@
 <script>
-    import Challenge from "../../../components/Challenge.svelte";
+    import Challenge from "../../../components/challenge/Challenge.svelte";
     import Loader from "../../../components/Loader.svelte";
     import {getChallengeParticipation} from "$lib/quizzApi.js";
 

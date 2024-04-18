@@ -1,8 +1,8 @@
 <script>
     import {getChallengeParticipation} from "$lib/quizzApi.js";
     import {onMount} from "svelte";
-    import Loader from "./Loader.svelte";
-    import {xpPoints} from "../store.js";
+    import Loader from "../Loader.svelte";
+    import {xpPoints} from "../../store.js";
 
     export let challengeParticipation;
     let challengeParticipationRefreshed = getChallengeParticipation(challengeParticipation.id)

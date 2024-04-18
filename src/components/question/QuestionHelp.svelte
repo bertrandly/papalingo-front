@@ -1,6 +1,6 @@
 <script>
     import {patchAnswer} from "$lib/quizzApi.js";
-    import Loader from "./Loader.svelte";
+    import Loader from "../Loader.svelte";
 
     export let userAnswer=null;
 

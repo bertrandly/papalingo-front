@@ -1,13 +1,13 @@
 <script>
 
-    import Answer from "../Answer.svelte";
+    import Answer from "../answer/Answer.svelte";
     import {createEventDispatcher} from 'svelte'
-    import QuestionError from "../QuestionError.svelte";
-    import QuestionSuccess from "../QuestionSuccess.svelte";
+    import QuestionError from "./QuestionError.svelte";
+    import QuestionSuccess from "./QuestionSuccess.svelte";
     import {postAnswer} from "$lib/quizzApi.js";
-    import AnswerTraduction from "../AnswerTraduction.svelte";
-    import QuestionExplaination from "../QuestionExplaination.svelte";
-    import QuestionHelp from "../QuestionHelp.svelte";
+    import AnswerTraduction from "../answer/AnswerTraduction.svelte";
+    import QuestionExplaination from "./QuestionExplaination.svelte";
+    import QuestionHelp from "./QuestionHelp.svelte";
     import Media from "../media/Media.svelte";
 
     const dispatch = createEventDispatcher()
