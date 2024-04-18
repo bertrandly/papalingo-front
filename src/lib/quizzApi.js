@@ -181,9 +181,10 @@ export async function getChallengeParticipation(id) {
     return await res.json();
 }
 
-export async function getQuestion(id) {
+export async function getQuestion(questionId) {
     let options = await getDefaultOptions();
-    const url = getApiRootUrl() + 'questions/' + id;
+    //const url = getApiRootUrl() + 'questions/' + id;
+    const url = getApiHost() + questionId;
     const res = await fetch(url, options);
     return await res.json();
 }

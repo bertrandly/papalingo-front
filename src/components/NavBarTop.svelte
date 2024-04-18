@@ -29,8 +29,8 @@
     }
 
     isAuthenticated.subscribe((value) => {
-        console.log('navbar isAuthenticated.suscribe');
-        console.log(value);
+        console.log('navbar isAuthenticated.suscribe: '+value);
+
         /*value.then(function (t) {
             currentUser = getConnectedUser()
             user.set(currentUser)

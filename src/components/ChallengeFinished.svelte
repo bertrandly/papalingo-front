@@ -27,7 +27,7 @@
                 {:then cp }
                     <div class="mb-8">
                         <div class="radial-progress text-primary"
-                             style="--value:{challengeParticipation.correctAnswerRate};"
+                             style="--value:{cp.correctAnswerRate};"
                              role="progressbar">{cp.correctAnswerRate}%
                         </div>
                     </div>

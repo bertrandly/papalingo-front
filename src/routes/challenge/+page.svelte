@@ -23,17 +23,19 @@
         });
 
         data.then(async function (value) {
+
+            nextChallenge = await getNextChallenge()
+            /*
             //midnight
             let now = new Date()
             now.setHours(0, 0, 0);
-            console.log(value.length)
-            console.log('get next challenge')
             if (value.length === 0 || value[0].startedAt < now.toISOString()) {
                 nextChallenge = await getNextChallenge()
             } else {
                 nextChallenge = await getNextChallenge()
                 //nextChallenge = new Promise((resolve, reject)=>  {resolve(null)});
             }
+            */
         })
 
     });

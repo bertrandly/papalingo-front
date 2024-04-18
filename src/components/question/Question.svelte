@@ -80,7 +80,8 @@
             {#if relatedToMedia}
                 Listen carefully and answer the questions
             {:else}
-                {#if question.type == 'simpl'}
+                {question.statement}
+               <!-- {#if question.type == 'simpl'}
                     Type the missing word in the sentance below:
                 {:else if question.type == 'trad' || question.type == 'full'}
                     Translate the sentance below:
@@ -88,7 +89,7 @@
                     Listen and answer the questions:
                 {:else}
                     Find the missing word(s) in the sentance below:
-                {/if}
+                {/if}-->
             {/if}
 
             {#if question.media}
@@ -152,7 +153,7 @@
             {#if isAnswerCorrect}
                 <QuestionSuccess></QuestionSuccess>
             {:else}
-                <QuestionError answer={question.correctAnswer} userAnswer={userAnswer}/>
+                <QuestionError answer={question.correctAnswer}/>
             {/if}
 
             {#if question.explaination}

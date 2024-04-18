@@ -5,6 +5,7 @@
     import ChallengeFinished from "./ChallengeFinished.svelte";
     import Loader from "./Loader.svelte";
     import Media from "./media/Media.svelte";
+    import {focusOnInit} from "$lib/utils.js";
 
     export let challengeParticipation
 
@@ -38,7 +39,7 @@
         } else {
             currentQuestionIndex++;
             console.log('currentQuestionIndex: ' + currentQuestionIndex)
-            loadQuestion(challenge.shuffledQuestions[currentQuestionIndex].id);
+            loadQuestion(challenge.shuffledQuestions[currentQuestionIndex]);
             state = 'running'
         }
     }
@@ -46,7 +47,6 @@
     nextQuestion()
 
     function saveAndClose() {
-        console.log('saveAndClose')
         state = 'ended'
         currentQuestionIndex++;
         closeChallengeParticipation(challengeParticipation.id);
@@ -63,6 +63,7 @@
         questionValidated = true;
         readyForNextQuestion = false;
     }
+
 
     function onUserAnswer(event) {
         //console.log('onUserAnswer')
@@ -121,7 +122,7 @@
 
     {#if questionValidated}
         {#if readyForNextQuestion}
-            <button on:click={nextQuestion} class="btn btn-block btn-success">
+            <button on:click={nextQuestion} class="btn btn-block btn-success" use:focusOnInit>
                 {#if (currentQuestionIndex + 1) < challenge.questions.length}Next question{:else}Finish{/if}
             </button>
         {:else}
