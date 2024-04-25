@@ -66,13 +66,9 @@
                     {:else}
 
                         <div class="mb-2">
-                            <p><small>Today's challenge is:</small></p>
-                            {#if loadedNexChallenge.isRandom}
-                                <h3>A surprise! It has been generated randomly</h3>
-                            {:else if loadedNexChallenge.title}
+                            {#if loadedNexChallenge.title}
+                                <p><small>Today's challenge is:</small></p>
                                 <h3>"{loadedNexChallenge.title}"</h3>
-                            {:else}
-                                <h3>Challenge #{loadedNexChallenge.id}</h3>
                             {/if}
                         </div>
                         {#if loadedNexChallenge.media}

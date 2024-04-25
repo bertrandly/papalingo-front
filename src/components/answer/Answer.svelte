@@ -17,7 +17,7 @@
     }
 </script>
 
-<label class="label cursor-pointer mx-1 flex justify-start grow">
+<label class="label cursor-pointer mx-1 flex justify-start ">
     <input
             disabled="{questionValidated}"
             type="checkbox"

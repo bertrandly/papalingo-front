@@ -130,7 +130,7 @@
                 bind:sentanceCreated={selectedAnswer}
         />
     {:else}
-        <div class="my-3 flex flex-row justify-between flex-wrap">
+        <div class="my-3 flex flex-row justify-around flex-wrap ">
             {#each question.randomAnswers as answer, answerIndex}
                 <Answer
                         isCorrect={question.correctAnswers.includes(answer)}

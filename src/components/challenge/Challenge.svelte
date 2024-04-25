@@ -39,7 +39,7 @@
         } else {
             currentQuestionIndex++;
             console.log('currentQuestionIndex: ' + currentQuestionIndex)
-            loadQuestion(challenge.shuffledQuestions[currentQuestionIndex]);
+            loadQuestion(challenge.questions[currentQuestionIndex]);
             state = 'running'
         }
     }
