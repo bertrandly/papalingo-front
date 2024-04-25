@@ -54,9 +54,10 @@
                    <Loader text="What do I know about you?"/>
                 {:then userLoaded}
                     <div class="mb-6">
-                        <a href="/challenge" class="btn btn-primary " on:click={disableButton}>
+                        <!--<a href="/challenge" class="btn btn-primary " on:click={disableButton}>
                             Let's go
-                        </a>
+                        </a>-->
+                        Sorry not today
                     </div>
                 {/await}
 
