@@ -10,7 +10,7 @@
 </script>
 
 {#await mediaPromise}
-    <Loader/>
+    <div class="skeleton w-32 h-32"></div>
 {:then media}
     {#if media.type === "sound"}
        <MediaSound media="{media}"/>

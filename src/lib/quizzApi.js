@@ -221,3 +221,10 @@ export async function getConnectedUser() {
     const res = await fetch(url, options);
     return await res.json();
 }
+
+export async function getChapter(chapterId) {
+    let options = await getDefaultOptions();
+    const url = getApiHost() + chapterId;
+    const res = await fetch(url, options);
+    return await res.json();
+}

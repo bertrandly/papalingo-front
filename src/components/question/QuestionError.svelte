@@ -1,6 +1,5 @@
 <script>
     export let answer=null;
-
 </script>
 
 <div class="card bg-error text-primary-content">
