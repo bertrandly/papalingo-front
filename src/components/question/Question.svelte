@@ -9,6 +9,8 @@
     import QuestionExplaination from "./QuestionExplaination.svelte";
     import QuestionHelp from "./QuestionHelp.svelte";
     import Media from "../media/Media.svelte";
+    import Chapter from "../chapter/Chapter.svelte";
+    import Icon from "@iconify/svelte";
 
     const dispatch = createEventDispatcher()
 
@@ -71,6 +73,10 @@
 
 </script>
 
+{#if question.tutorial}
+    <Icon icon="solar:book-2-broken"  style="font-size: 44px;" />
+    New lesson
+{/if}
 
 <form
         on:submit|preventDefault={onSubmit}
@@ -81,15 +87,15 @@
                 Listen carefully and answer the questions
             {:else}
                 {question.statement}
-               <!-- {#if question.type == 'simpl'}
-                    Type the missing word in the sentance below:
-                {:else if question.type == 'trad' || question.type == 'full'}
-                    Translate the sentance below:
-                {:else if question.type == 'mcq'}
-                    Listen and answer the questions:
-                {:else}
-                    Find the missing word(s) in the sentance below:
-                {/if}-->
+                <!-- {#if question.type == 'simpl'}
+                     Type the missing word in the sentance below:
+                 {:else if question.type == 'trad' || question.type == 'full'}
+                     Translate the sentance below:
+                 {:else if question.type == 'mcq'}
+                     Listen and answer the questions:
+                 {:else}
+                     Find the missing word(s) in the sentance below:
+                 {/if}-->
             {/if}
 
             {#if question.media}
@@ -150,6 +156,12 @@
 {#if validated}
     <div class="flex justify-center my-5">
         <div>
+            {#if question.translation}
+                <div class="text-success">
+                    This means: "{question.translation}"
+                </div>
+            {/if}
+
             {#if isAnswerCorrect}
                 <QuestionSuccess></QuestionSuccess>
             {:else}
@@ -160,6 +172,9 @@
                 <QuestionExplaination question={question}/>
             {/if}
             <QuestionHelp userAnswer={userAnswer}/>
+            {#if question.chapter}
+                <Chapter chapterId={question.chapter}/>
+            {/if}
         </div>
 
     </div>

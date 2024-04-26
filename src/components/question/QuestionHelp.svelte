@@ -1,6 +1,7 @@
 <script>
     import {patchAnswer} from "$lib/quizzApi.js";
     import Loader from "../Loader.svelte";
+    import Chapter from "../chapter/Chapter.svelte";
 
     export let userAnswer=null;
 
@@ -25,6 +26,9 @@
     {#if userAnswer}
         <button class="btn btn-ghost my-0.5" on:click={toggleForm}>But why ?</button>
     {/if}
+
+
+
 </div>
 <div>
     {#if formOpen}
