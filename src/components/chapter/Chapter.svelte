@@ -1,12 +1,12 @@
 <script>
-    import {getChapter} from "$lib/quizzApi.js";
+    import {fetchEntity} from "$lib/quizzApi.js";
 
     export let chapterId
     let chapterPromise
     let isModalOpen = false
 
     function loadChapter() {
-        chapterPromise = getChapter(chapterId)
+        chapterPromise = fetchEntity(chapterId)
         isModalOpen = true
     }
 

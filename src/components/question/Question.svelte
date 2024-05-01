@@ -10,11 +10,12 @@
     import QuestionHelp from "./QuestionHelp.svelte";
     import Media from "../media/Media.svelte";
     import Chapter from "../chapter/Chapter.svelte";
-    import Icon from "@iconify/svelte";
+    import QuestionType from "./QuestionType.svelte";
 
     const dispatch = createEventDispatcher()
 
     export let question
+    export let reason
     export let participation
     export let iteration
 
@@ -73,10 +74,7 @@
 
 </script>
 
-{#if question.tutorial}
-    <Icon icon="solar:book-2-broken"  style="font-size: 44px;" />
-    New lesson
-{/if}
+<QuestionType reason={reason} />
 
 <form
         on:submit|preventDefault={onSubmit}
@@ -87,21 +85,10 @@
                 Listen carefully and answer the questions
             {:else}
                 {question.statement}
-                <!-- {#if question.type == 'simpl'}
-                     Type the missing word in the sentance below:
-                 {:else if question.type == 'trad' || question.type == 'full'}
-                     Translate the sentance below:
-                 {:else if question.type == 'mcq'}
-                     Listen and answer the questions:
-                 {:else}
-                     Find the missing word(s) in the sentance below:
-                 {/if}-->
             {/if}
 
             {#if question.media}
-                <div class="flex justify-center my-3">
                     <Media mediaId={question.media}/>
-                </div>
             {/if}
         </p>
 
@@ -114,21 +101,17 @@
 
 
     {#if question.type == 'simpl'}
-        <div class="flex justify-center my-5">
             <input
                     type="text"
                     placeholder="answer"
                     class="w-5/6 input input-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs"
                     bind:value={selectedAnswer}/>
-        </div>
     {:else if question.type == 'full'}
-        <div class="flex justify-center my-5">
                 <textarea
                         type="text"
                         placeholder="answer"
                         class="textarea textarea-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs"
                         bind:value={selectedAnswer}/>
-        </div>
     {:else if question.type == 'trad'}
         <AnswerTraduction
                 sentance={question.correctAnswer}

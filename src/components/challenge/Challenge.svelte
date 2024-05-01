@@ -1,7 +1,7 @@
 <script>
     import {fly} from "svelte/transition";
     import Question from "../question/Question.svelte";
-    import {closeChallengeParticipation, getQuestion} from "$lib/quizzApi.js";
+    import {closeChallengeParticipation, fetchEntity} from "$lib/quizzApi.js";
     import ChallengeFinished from "./ChallengeFinished.svelte";
     import Loader from "../Loader.svelte";
     import Media from "../media/Media.svelte";
@@ -12,16 +12,19 @@
     let challenge = challengeParticipation.challenge
     let questions = [];
     let currentQuestionIndex = -1;
-    $: progression = challenge.questions.length > 0 ? (currentQuestionIndex) / (challenge.questions.length) * 100 : 0;
+    $: progression = challenge.challengeQuestionAssociations.length > 0 ? (currentQuestionIndex) / (challenge.challengeQuestionAssociations.length) * 100 : 0;
     let currentQuestion = null;
     let state = null;
     let questionValidated = false;
     let readyForNextQuestion = false;
     let wrongQuestions = [];
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const debugQuestionId = urlParams.get('qid');
+
     function nextQuestion() {
         questionValidated = false;
-        if (state == 'running' && currentQuestionIndex >= 0 && (currentQuestionIndex + 1) === challenge.questions.length) {
+        if (state == 'running' && currentQuestionIndex >= 0 && (currentQuestionIndex + 1) === challenge.challengeQuestionAssociations.length) {
             if (wrongQuestions.length > 0) {
                 state = 'mistake_intro'
                 currentQuestionIndex = 0;
@@ -39,7 +42,13 @@
         } else {
             currentQuestionIndex++;
             console.log('currentQuestionIndex: ' + currentQuestionIndex)
-            loadQuestion(challenge.questions[currentQuestionIndex]);
+            if (debugQuestionId) {
+
+                loadQuestion(debugQuestionId);
+            } else {
+                loadQuestion(challenge.challengeQuestionAssociations[currentQuestionIndex]);
+            }
+
             state = 'running'
         }
     }
@@ -54,7 +63,7 @@
 
     async function loadQuestion(id) {
         currentQuestion = null;
-        currentQuestion = await getQuestion(id)
+        currentQuestion = await fetchEntity(id)
         questions = [...questions, currentQuestion];
     }
 
@@ -76,62 +85,65 @@
 
 {#if state === 'running' || state === 'mistake'}
     <progress class="progress progress-success" value={progression} max="100"></progress>
-
-    {#if challenge.media}
-        <Media mediaId={challenge.media}/>
-    {/if}
 {/if}
 
-{#if state === 'mistake_intro'}
-    <div class="flex justify-center my-5">
-        <div class="w-1/3 text-center">
-            <h2>Everybody deserves a second chance !</h2>
-            {#if wrongQuestions.length == 1}
-                <p>Only one tiny mistake. That will be easy to correct it, right?</p>
-            {:else}
-                <p>Please retry these {wrongQuestions.length} questions</p>
-            {/if}
-        </div>
-    </div>
-    <button on:click={nextQuestion} class="btn btn-block btn-success">
-        Let's go
-    </button>
-{:else if state === 'running' || state === 'mistake'}
-    {#if currentQuestion}
-        {#each questions as question, questionIndex}
-            {#if questionIndex === currentQuestionIndex}
-                <div
-                        in:fly={{ x: 200, duration: 500, delay: 500 }}
-                        out:fly={{ x: -200, duration: 500 }}>
-                    <Question question={question}
-                              relatedToMedia={challenge.media?true:false}
-                              participation={challengeParticipation}
-                              iteration={state === 'mistake'?2:1}
-                              on:validation={onQuestionValidated}
-                              on:userAnswer={onUserAnswer}></Question>
-                </div>
-            {/if}
-        {/each}
-    {:else}
-        <div class="flex justify-center mt-3">
-            <div class="w-1/3 text-center">
-                <Loader text="Loading question"/>
-            </div>
-        </div>
-    {/if}
+<div class="flex justify-center my-5">
+    <div class="lg:w-2/3 text-center">
 
-    {#if questionValidated}
-        {#if readyForNextQuestion}
-            <button on:click={nextQuestion} class="btn btn-block btn-success" use:focusOnInit>
-                {#if (currentQuestionIndex + 1) < challenge.questions.length}Next question{:else}Finish{/if}
-            </button>
-        {:else}
-            <Loader text="Saving your answer"/>
+        {#if state === 'running' || state === 'mistake'}
+            {#if challenge.media}
+                <Media mediaId={challenge.media}/>
+            {/if}
         {/if}
-    {/if}
 
-{:else if state === 'ended'}
-    <ChallengeFinished challengeParticipation={challengeParticipation}/>
-{/if}
+        {#if state === 'mistake_intro'}
 
+                    <h2>Everybody deserves a second chance !</h2>
+                    {#if wrongQuestions.length == 1}
+                        <p>Only one tiny mistake. That will be easy to correct it, right?</p>
+                    {:else}
+                        <p>Please retry these {wrongQuestions.length} questions</p>
+                    {/if}
 
+            <button on:click={nextQuestion} class="btn btn-block btn-success">
+                Let's go
+            </button>
+        {:else if state === 'running' || state === 'mistake'}
+            {#if currentQuestion}
+                {#each questions as questionInChallenge, questionIndex}
+                    {#if questionIndex === currentQuestionIndex}
+                        <div
+                                in:fly={{ x: 200, duration: 500, delay: 500 }}
+                                out:fly={{ x: -200, duration: 500 }}>
+                            <Question question={questionInChallenge.question}
+                                      reason={questionInChallenge.reason}
+                                      relatedToMedia={challenge.media?true:false}
+                                      participation={challengeParticipation}
+                                      iteration={state === 'mistake'?2:1}
+                                      on:validation={onQuestionValidated}
+                                      on:userAnswer={onUserAnswer}></Question>
+                        </div>
+                    {/if}
+                {/each}
+            {:else}
+
+                        <Loader text="Loading question"/>
+
+            {/if}
+
+            {#if questionValidated}
+                {#if readyForNextQuestion}
+                    <button on:click={nextQuestion} class="btn btn-block btn-success" use:focusOnInit>
+                        {#if (currentQuestionIndex + 1) < challenge.challengeQuestionAssociations.length}Next question{:else}Finish{/if}
+                    </button>
+                {:else}
+                    <Loader text="Saving your answer"/>
+                {/if}
+            {/if}
+
+        {:else if state === 'ended'}
+            <ChallengeFinished challengeParticipation={challengeParticipation}/>
+        {/if}
+
+    </div>
+</div>

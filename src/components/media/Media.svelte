@@ -1,11 +1,10 @@
 <script>
-    import {getMedia} from "$lib/quizzApi.js";
-    import Loader from "../Loader.svelte";
+    import {fetchEntity} from "$lib/quizzApi.js";
     import MediaSound from "./MediaSound.svelte";
 
     export let mediaId
 
-    let mediaPromise = getMedia(mediaId)
+    let mediaPromise = fetchEntity(mediaId)
 
 </script>
 

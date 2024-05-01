@@ -181,13 +181,7 @@ export async function getChallengeParticipation(id) {
     return await res.json();
 }
 
-export async function getQuestion(questionId) {
-    let options = await getDefaultOptions();
-    //const url = getApiRootUrl() + 'questions/' + id;
-    const url = getApiHost() + questionId;
-    const res = await fetch(url, options);
-    return await res.json();
-}
+
 
 export async function postAnswer(data) {
     const url = getApiRootUrl() + 'user_answers';
@@ -208,13 +202,6 @@ export async function patchAnswer(id, data) {
     return await res.json();
 }
 
-export async function getMedia(mediaId) {
-    let options = await getDefaultOptions();
-    const url = getApiHost() + mediaId;
-    const res = await fetch(url, options);
-    return await res.json();
-}
-
 export async function getConnectedUser() {
     let options = await getDefaultOptions();
     const url = getApiRootUrl() + 'users/me';
@@ -222,9 +209,10 @@ export async function getConnectedUser() {
     return await res.json();
 }
 
-export async function getChapter(chapterId) {
+export async function fetchEntity(questionId) {
     let options = await getDefaultOptions();
-    const url = getApiHost() + chapterId;
+    //const url = getApiRootUrl() + 'questions/' + id;
+    const url = getApiHost() + questionId;
     const res = await fetch(url, options);
     return await res.json();
 }
