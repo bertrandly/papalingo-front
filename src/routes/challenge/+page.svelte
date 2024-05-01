@@ -1,95 +1,15 @@
 <script>
-
     import ChallengeTimelineSummary from "../../components/challenge/ChallengeTimelineSummary.svelte";
-    import {onMount} from "svelte";
     import {getAllChallengeParticipations, getNextChallenge, postChallengeParticipation} from "$lib/quizzApi.js";
-    import {goto} from "$app/navigation";
     import Loader from "../../components/Loader.svelte";
-    import Icon from "@iconify/svelte";
-
-
     let data = getAllChallengeParticipations();
-
-
-    let nextChallenge = null  //promise
-    $: participation = null
-
-    onMount(async () => {
-
-        nextChallenge = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve("");
-            }, 30000);
-        });
-
-        data.then(async function (value) {
-
-            nextChallenge = await getNextChallenge()
-            /*
-            //midnight
-            let now = new Date()
-            now.setHours(0, 0, 0);
-            if (value.length === 0 || value[0].startedAt < now.toISOString()) {
-                nextChallenge = await getNextChallenge()
-            } else {
-                nextChallenge = await getNextChallenge()
-                //nextChallenge = new Promise((resolve, reject)=>  {resolve(null)});
-            }
-            */
-        })
-
-    });
-    const startChallenge = async (event) => {
-        event.currentTarget.disabled = true;
-        participation = postChallengeParticipation({'challenge': nextChallenge.id})
-        participation.then(async function (value) {
-            goto('/challenge/' + value.id);
-        })
-        return participation
-    }
 </script>
 
 
 <div class="flex justify-center mt-3 flex-col">
     <div class="flex justify-center">
         <div class="w-1/2 text-center ">
-            <!--chargement-->
-            {#await data}
-                <!--nothing-->
-            {:then resolvedValue }
-                <!--chargé: mais il y a t il un objet -->
-                {#await nextChallenge}
-                    <Loader text="What will be your next challenge ?"/>
-                {:then loadedNexChallenge }
-                    {#if loadedNexChallenge === null}
-                        Job's done!
-                    {:else}
-
-                        <div class="mb-2">
-                            {#if loadedNexChallenge.title}
-                                <p><small>Today's challenge is:</small></p>
-                                <h3>"{loadedNexChallenge.title}"</h3>
-                            {/if}
-                        </div>
-                        {#if loadedNexChallenge.media}
-                            <div class="flex justify-center my-4 animate-bounce">
-                                <Icon icon="ri:headphone-fill" style="font-size: 44px;"/>
-                            </div>
-                        {/if}
-
-                        <button on:click={startChallenge} class="btn btn-success btn-block ">
-                            {#if participation === null}
-                                Start
-                            {:else}
-                                <Loader text="Warming up"/>
-                            {/if}
-
-                        </button>
-                    {/if}
-                {/await}
-
-
-            {/await}
+            <a href="challenge/new" class="btn btn-success btn-block ">Start</a>
         </div>
     </div>
 

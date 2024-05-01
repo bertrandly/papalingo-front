@@ -115,13 +115,8 @@ export async function getAllChallengeParticipations() {
 export async function getNextChallenge() {
     let options = await getDefaultOptions();
     const url = getApiRootUrl() + 'challenges/find';
-    try {
-        const res = await fetch(url, options);
-        return await res.json();
-    } catch (error) {
-        console.error('There was an error calling ' + url, error);
-    }
-    return null
+    const res = await fetch(url, options);
+    return await res.json();
 }
 
 export async function getChallenge(id) {
@@ -205,6 +200,13 @@ export async function patchAnswer(id, data) {
 export async function getConnectedUser() {
     let options = await getDefaultOptions();
     const url = getApiRootUrl() + 'users/me';
+    const res = await fetch(url, options);
+    return await res.json();
+}
+
+export async function getLessonProgressOfUser() {
+    let options = await getDefaultOptions();
+    const url = getApiRootUrl() + 'users/me/lesson_progresses';
     const res = await fetch(url, options);
     return await res.json();
 }

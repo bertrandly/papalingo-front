@@ -10,7 +10,7 @@
 </script>
 
 {#await cp}
-    <Loader text="Loading challenge"/>
+    <Loader/>
 {:then loadedChallenge }
     <Challenge challengeParticipation={loadedChallenge}></Challenge>
 {/await}
