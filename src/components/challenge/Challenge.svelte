@@ -133,7 +133,7 @@
 
             {#if questionValidated}
                 {#if readyForNextQuestion}
-                    <button on:click={nextQuestion} class="btn btn-block btn-success" use:focusOnInit>
+                    <button on:click={nextQuestion} class="btn btn-block btn-primary" use:focusOnInit>
                         {#if (currentQuestionIndex + 1) < challenge.challengeQuestionAssociations.length}Next question{:else}Finish{/if}
                     </button>
                 {:else}

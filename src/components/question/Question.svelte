@@ -74,7 +74,15 @@
 
 </script>
 
-<QuestionType reason={reason} />
+<div class="text-left flex flex-row justify-between">
+    <QuestionType reason={reason} />
+
+    {#if question.chapter && validated}
+        <Chapter chapterId={question.chapter}/>
+    {/if}
+
+</div>
+
 
 <form
         on:submit|preventDefault={onSubmit}
@@ -132,15 +140,15 @@
 
 
     {#if !validated}
-        <button type="submit" class="btn btn-block btn-success">Validate</button>
+        <button type="submit" class="btn btn-block btn-primary">Validate</button>
     {/if}
 </form>
 
 {#if validated}
-    <div class="flex justify-center my-5">
+    <div class="">
         <div>
             {#if question.translation}
-                <div class="text-success">
+                <div class="text-primary">
                     This means: "{question.translation}"
                 </div>
             {/if}
@@ -155,9 +163,7 @@
                 <QuestionExplaination question={question}/>
             {/if}
             <QuestionHelp userAnswer={userAnswer}/>
-            {#if question.chapter}
-                <Chapter chapterId={question.chapter}/>
-            {/if}
+
         </div>
 
     </div>

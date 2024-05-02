@@ -2,6 +2,7 @@
     import {patchAnswer} from "$lib/quizzApi.js";
     import Loader from "../Loader.svelte";
     import Chapter from "../chapter/Chapter.svelte";
+    import Icon from "@iconify/svelte";
 
     export let userAnswer=null;
 
@@ -24,7 +25,22 @@
 
 <div class="">
     {#if userAnswer}
-        <button class="btn btn-ghost my-0.5" on:click={toggleForm}>But why ?</button>
+
+
+
+        <div class="chat chat-start">
+            <div class="chat-image avatar">
+                <div class="">
+                    <Icon icon="iconoir:emoji-puzzled" width="50" height="50" />
+                </div>
+            </div>
+
+            <div class="chat-bubble  chat-bubble-warning">
+                <button class="btn btn-ghost my-0.5" on:click={toggleForm}>But why ?</button>
+            </div>
+
+        </div>
+
     {/if}
 
 

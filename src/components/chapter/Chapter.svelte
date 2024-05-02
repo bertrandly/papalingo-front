@@ -1,5 +1,6 @@
 <script>
     import {fetchEntity} from "$lib/quizzApi.js";
+    import Icon from "@iconify/svelte";
 
     export let chapterId
     let chapterPromise
@@ -12,7 +13,9 @@
 
 </script>
 
-<button class="btn" on:click={() => (loadChapter())}>See lesson</button>
+<button class="btn btn-sm" on:click={() => (loadChapter())}>
+    <Icon icon="iconoir:bookmark-book" width="30" height="30" />
+</button>
 <div class="modal" class:modal-open={isModalOpen}>
     <div class="modal-box">
         {#if isModalOpen}
