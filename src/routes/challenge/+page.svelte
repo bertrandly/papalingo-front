@@ -9,7 +9,7 @@
 <div class="flex justify-center mt-3 flex-col">
     <div class="flex justify-center">
         <div class="w-1/2 text-center ">
-            <a href="challenge/new" class="btn btn-success btn-block ">Start</a>
+            <a href="challenge/new" class="btn btn-primary btn-block ">Start</a>
         </div>
     </div>
 

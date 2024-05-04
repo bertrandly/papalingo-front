@@ -89,14 +89,13 @@
 >
     <div class="my-3 text-center">
         <p class="mb-2">
-            {#if relatedToMedia}
-                Listen carefully and answer the questions
-            {:else}
+
                 {question.statement}
-            {/if}
 
             {#if question.media}
+                <div class="flex-row justify-around">
                     <Media mediaId={question.media}/>
+                </div>
             {/if}
         </p>
 
@@ -112,13 +111,13 @@
             <input
                     type="text"
                     placeholder="answer"
-                    class="w-5/6 input input-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs"
+                    class="w-5/6 input input-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs my-2"
                     bind:value={selectedAnswer}/>
     {:else if question.type == 'full'}
                 <textarea
                         type="text"
                         placeholder="answer"
-                        class="textarea textarea-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs"
+                        class="textarea textarea-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs my-2"
                         bind:value={selectedAnswer}/>
     {:else if question.type == 'trad'}
         <AnswerTraduction
@@ -140,7 +139,7 @@
 
 
     {#if !validated}
-        <button type="submit" class="btn btn-block btn-primary">Validate</button>
+        <button type="submit" class="btn btn-block btn-primary ">Validate</button>
     {/if}
 </form>
 

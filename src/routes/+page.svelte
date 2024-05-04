@@ -40,7 +40,7 @@
 
 <div class="hero ">
     <div class="hero-overlay bg-opacity-0"></div>
-    <div class="hero-content text-center text-primary-content">
+    <div class="hero-content text-center text-success">
         <div class="max-w-md">
             <h1 class="mb-5 text-5xl font-bold">
                 <img src="logo_papalingo.png" alt="logo"/>
@@ -54,8 +54,8 @@
                    <Loader text="What do I know about you?"/>
                 {:then userLoaded}
                     <div class="mb-6">
-                        <a href="/challenge" class="btn btn-success " on:click={disableButton}>
-                            Let's go
+                        <a href="/challenge" class="btn btn-primary " on:click={disableButton}>
+                            May the force be with you
                         </a>
                     </div>
                 {/await}

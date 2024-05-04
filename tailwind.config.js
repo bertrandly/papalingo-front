@@ -6,7 +6,18 @@ export default {
   },
   plugins: [require('daisyui')],
   daisyui: {
-    themes: ["fantasy"],
+    themes: [
+      {
+
+
+        papalingo: {
+          ...require("daisyui/src/theming/themes")["fantasy"],
+          primary: "#0d5a6f",
+        },
+
+
+      }
+    ],
   },
 }
 
