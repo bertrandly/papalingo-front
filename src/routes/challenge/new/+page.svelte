@@ -33,7 +33,7 @@
     {:then challenge}
         {#await participation}
             <Icon icon="material-symbols:check-box-outline" width="96" height="96"/>
-            <Loader text="warm up"/>
+            <Loader text="warming up"/>
         {:then p}
             <!--redirect-->
         {/await}

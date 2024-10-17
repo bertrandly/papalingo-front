@@ -55,7 +55,7 @@
                 {:then userLoaded}
                     <div class="mb-6">
                         <a href="/challenge" class="btn btn-primary " on:click={disableButton}>
-                            May the force be with you
+                            Let's go
                         </a>
                     </div>
                 {/await}
