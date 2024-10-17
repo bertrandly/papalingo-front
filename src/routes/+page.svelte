@@ -46,7 +46,7 @@
                 <img src="logo_papalingo.png" alt="logo"/>
             </h1>
             <p class="mb-5">The only, custom-made, especially for Jeanne, English learning App</p>
-            <p class="mb-5">With real piece of BBC inside!</p>
+            <p class="mb-5">Target: BFI</p>
 
             {#if $isAuthenticated === true}
 
