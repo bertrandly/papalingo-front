@@ -4,13 +4,14 @@
     import {createEventDispatcher} from 'svelte'
     import QuestionError from "./QuestionError.svelte";
     import QuestionSuccess from "./QuestionSuccess.svelte";
-    import {postAnswer} from "$lib/quizzApi.js";
+    import {fetchEntity, postAnswer, publishQuestion} from "$lib/quizzApi.js";
     import AnswerTraduction from "../answer/AnswerTraduction.svelte";
     import QuestionExplaination from "./QuestionExplaination.svelte";
     import QuestionHelp from "./QuestionHelp.svelte";
     import Media from "../media/Media.svelte";
     import Chapter from "../chapter/Chapter.svelte";
     import QuestionType from "./QuestionType.svelte";
+    import Icon from "@iconify/svelte";
 
     const dispatch = createEventDispatcher()
 
@@ -72,10 +73,14 @@
 
     }
 
+    function publishTheQuestion() {
+        publishQuestion(question.id).then((d)=>(question=d))
+    }
+
 </script>
 
 <div class="text-left flex flex-row justify-between">
-    <QuestionType reason={reason} />
+    <QuestionType reason={reason}/>
 
     {#if question.chapter && validated}
         <Chapter chapterId={question.chapter}/>
@@ -90,7 +95,7 @@
     <div class="my-3 text-center">
         <p class="mb-2">
 
-                {question.statement}
+            {question.statement}
 
             {#if question.media}
                 <div class="flex-row justify-around">
@@ -108,11 +113,11 @@
 
 
     {#if question.type == 'simpl'}
-            <input
-                    type="text"
-                    placeholder="answer"
-                    class="w-5/6 input input-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs my-2"
-                    bind:value={selectedAnswer}/>
+        <input
+                type="text"
+                placeholder="answer"
+                class="w-5/6 input input-bordered { validated?(isAnswerCorrect?'input-success':'input-error'):''} w-full max-w-xs my-2"
+                bind:value={selectedAnswer}/>
     {:else if question.type == 'full'}
                 <textarea
                         type="text"
@@ -168,4 +173,11 @@
     </div>
 {/if}
 
+{#if !question.published}
+    <div class="my-3 ">
+        <button class="btn btn-sm my-3" on:click={() => (publishTheQuestion())}>
+            Publish question
+        </button>
+    </div>
+{/if}
 

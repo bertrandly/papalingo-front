@@ -11,14 +11,14 @@ function getApiHost() {
 
 let currentToken;
 token.subscribe(function (value) {
-    console.log('token updated: '+value)
+    console.log('token updated!')
     currentToken = value
 })
 
 export async function getToken() {
     //console.log(currentToken);
     if(currentToken.length>0){
-        console.log('token connu');
+        //console.log('token connu');
         return currentToken;
     }else{
         console.log('token inconnu');
@@ -216,5 +216,15 @@ export async function fetchEntity(questionId) {
     //const url = getApiRootUrl() + 'questions/' + id;
     const url = getApiHost() + questionId;
     const res = await fetch(url, options);
+    return await res.json();
+}
+
+export async function publishQuestion(id) {
+    const url = getApiRootUrl() + 'questions/' + id;
+    let options = await getDefaultOptions();
+    options.method = 'PATCH'
+    options.headers['Content-Type'] = 'application/merge-patch+json'
+    options.body = JSON.stringify({'published': true})
+    const res = await fetch(url, options)
     return await res.json();
 }
