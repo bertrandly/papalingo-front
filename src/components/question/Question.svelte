@@ -61,7 +61,11 @@
                 return selectedAnswer.toString() != '' && (question.correctAnswers.includes(selectedAnswer.toString()) || question.correctAnswers.toString() == selectedAnswer.toString())
             } else if (question.type == 'simpl') {
                 return selectedAnswer.toString() == question.correctAnswer
-            } else if (question.type == 'trad') {
+            }
+            else if (question.type == 'smplc') {
+                return question.correctAnswer.includes(selectedAnswer)
+            }
+            else if (question.type == 'trad') {
                 return selectedAnswer == question.correctAnswer
             } else if (question.type == 'full') {
                 return selectedAnswer == question.correctAnswer
@@ -111,8 +115,7 @@
         </blockquote>
     </div>
 
-
-    {#if question.type == 'simpl'}
+    {#if question.type == 'simpl' || question.type == 'smplc'}
         <input
                 type="text"
                 placeholder="answer"
