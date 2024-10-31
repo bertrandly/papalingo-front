@@ -26,7 +26,9 @@
                     <td>{#if progress.isActive}<div class="badge badge-primary">Active</div>{/if}</td>
                     <th>{progress.chapter.lesson.title} {progress.chapter.title?' - '+progress.chapter.title:''} </th>
                     <td>
-                        <progress class="progress progress-success w-56" value="{progress.rate}" max="100"></progress> <small>{progress.rate}%</small>
+                        <a href="/progress/{progress.id}">
+                            <progress class="progress progress-success w-56" value="{progress.rate}" max="100"></progress> <small>{progress.rate}%</small>
+                        </a>
                     </td>
                 </tr>
             {/each}

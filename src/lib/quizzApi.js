@@ -265,3 +265,10 @@ export async function publishQuestion(id) {
     const res = await fetch(url, options)
     return await res.json();
 }
+
+export async function getChapterProgressionStats(id) {
+    let options = await getDefaultOptions();
+    const url = getApiRootUrl() + 'lesson_progress/' + id+'/stat';
+    const res = await fetch(url, options);
+    return await res.json();
+}
