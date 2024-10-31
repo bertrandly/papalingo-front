@@ -7,7 +7,6 @@
     import Icon from "@iconify/svelte";
 
     let auth0Client
-    let currentUser;
 
     let xp = 0;
     let xpIndicatorCssClass = '';
@@ -31,17 +30,9 @@
 
     isAuthenticated.subscribe((value) => {
         console.log('navbar isAuthenticated.suscribe: ' + value);
-
-        /*value.then(function (t) {
-            currentUser = getConnectedUser()
-            user.set(currentUser)
-            currentUser.then(function (user) {
-                xpPoints.set(user.totalXp)
-            })
-        })*/
     })
 
-    user.subscribe((value) => {
+    /*user.subscribe((value) => {
         console.log('navbar user.suscribe');
         currentUser = value
         if (currentUser) {
@@ -49,11 +40,12 @@
                 xpPoints.set(user.totalXp)
             })
         }
-    })
+    })*/
 
     onMount(async () => {
 
         auth0Client = await auth.createClient();
+
         auth.loadUserDataWhenConnected(auth0Client)
         /*  let userConnectedPromise = auth0Client.isAuthenticated()
           isAuthenticated.set(await userConnectedPromise)*/
@@ -94,27 +86,21 @@
         </div>
     </div>
     <div class="navbar-center">
-        {#if currentUser}
-            {#await currentUser}
-            {:then user}
-                <span class="text-xl">{user.username}</span>
-            {/await}
+        {#if $user}
+            <span class="text-xl">{$user.username}</span>
         {/if}
     </div>
     <div class="navbar-end">
 
-        {#await currentUser}
-        {:then user}
-            {#if user && user.admin }
-                <span class={xpIndicatorCssClass}>{xp} XP</span>
-            {/if}
+        {#if $user && $user.admin}
+            <span class={xpIndicatorCssClass}>{xp} XP</span>
             <button class="btn btn-ghost btn-circle">
                 <div class="indicator">
                     <Icon icon="solar:user-linear" width="30" height="30"/>
                     <span class="badge badge-xs badge-primary indicator-item"></span>
                 </div>
             </button>
-        {/await}
+        {/if}
 
     </div>
 </div>

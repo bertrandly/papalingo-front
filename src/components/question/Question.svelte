@@ -11,7 +11,7 @@
     import Media from "../media/Media.svelte";
     import Chapter from "../chapter/Chapter.svelte";
     import QuestionType from "./QuestionType.svelte";
-    import Icon from "@iconify/svelte";
+    import QuestionFeedback from "./QuestionFeedback.svelte";
 
     const dispatch = createEventDispatcher()
 
@@ -169,7 +169,7 @@
             {#if question.explaination}
                 <QuestionExplaination question={question}/>
             {/if}
-            <QuestionHelp userAnswer={userAnswer}/>
+          <!--  <QuestionHelp userAnswer={userAnswer}/>-->
 
         </div>
 
@@ -183,4 +183,6 @@
         </button>
     </div>
 {/if}
+
+<QuestionFeedback question={question}/>
 

@@ -50,15 +50,15 @@
 
             {#if $isAuthenticated === true}
 
-                {#await $user}
+                {#if !$user}
                    <Loader text="What do I know about you?"/>
-                {:then userLoaded}
+                {:else}
                     <div class="mb-6">
                         <a href="/challenge" class="btn btn-primary " on:click={disableButton}>
                             Let's go
                         </a>
                     </div>
-                {/await}
+                {/if}
 
                 <div class="mt-5">
                     <a class="btn btn-neutral btn-ghost btn-sm" href="/#" on:click={logout}>Log Out</a>

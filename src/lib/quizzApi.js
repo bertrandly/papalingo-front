@@ -187,7 +187,44 @@ export async function postAnswer(data) {
     return await res.json();
 }
 
+export async function getUserQuestion(question, user) {
+    let options = await getDefaultOptions();
+    let params = '?question=' + question.id + '&user=' + user.id;
+    const url = getApiRootUrl() + 'user_questions' + params;
+
+    const res = await fetch(url, options);
+    const data = await res.json();
+
+    if (res.ok) {
+        return data;
+    } else {
+        //throw new Error(data);
+        console.error('There was an error calling ' + url);
+    }
+}
+
+export async function createUserQuestion(data) {
+    const url = getApiRootUrl() + 'user_questions';
+    let options = await getDefaultOptions();
+    options.method = 'POST'
+    options.body = JSON.stringify(data)
+    const res = await fetch(url, options)
+    return await res.json();
+}
+
+export async function patchUserQuestion(id, data) {
+    const url = getApiRootUrl() + 'user_questions/' + id;
+    let options = await getDefaultOptions();
+    options.method = 'PATCH'
+    options.headers['Content-Type'] = 'application/merge-patch+json'
+    options.body = JSON.stringify(data)
+    const res = await fetch(url, options)
+    return await res.json();
+}
+
+
 export async function patchAnswer(id, data) {
+    //deprecated
     const url = getApiRootUrl() + 'user_answers/' + id;
     let options = await getDefaultOptions();
     options.method = 'PATCH'

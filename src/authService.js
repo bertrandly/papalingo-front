@@ -38,7 +38,10 @@ async function loginWithPopup(client, options) {
 async function loadUserDataWhenConnected(client) {
     console.log('loadUserDataWhenConnected')
     isAuthenticated.set(await client.isAuthenticated());
-    user.set(getConnectedUser())
+    getConnectedUser().then((user_data) => {
+        user.set(user_data)
+    });
+
 }
 
 

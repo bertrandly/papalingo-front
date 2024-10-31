@@ -1,4 +1,9 @@
 <script>
+
+
+    //deprecated
+
+
     import {patchAnswer} from "$lib/quizzApi.js";
     import Loader from "../Loader.svelte";
     import Chapter from "../chapter/Chapter.svelte";
